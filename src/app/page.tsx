@@ -76,7 +76,7 @@ export default function Home() {
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50">
         <div className="glass h-16 px-8 rounded-2xl flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.05)] border-white/50">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-deep-blue rounded-xl flex items-center justify-center shadow-lg shadow-deep-blue/20">
+            <div className="w-9 h-9 bg-slate-900 rounded-xl flex items-center justify-center shadow-lg">
               <span className="text-white font-bold text-sm tracking-tighter">RA</span>
             </div>
             <span className="text-xl font-bold tracking-tight text-deep-blue">ReceptionistAI</span>
@@ -196,7 +196,7 @@ export default function Home() {
                       
                       <div className={cn(
                         "px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-sm transform group-hover:scale-105 transition-all duration-500",
-                        item.status === "Booked" ? "bg-green-500 text-white shadow-green-200" : "bg-zinc-100 text-zinc-500"
+                        item.status === "Booked" ? "bg-green-600 text-white shadow-sm" : "bg-slate-100 text-slate-500"
                       )}>
                         {item.status}
                       </div>
@@ -351,9 +351,9 @@ export default function Home() {
 
         {/* Final CTA - For the Sales Pitch */}
         <section className="max-w-5xl mx-auto px-6 mb-32">
-          <div className="relative rounded-[2rem] overflow-hidden bg-deep-blue p-12 md:p-24 text-center">
-            {/* Background pattern */}
-            <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+          <div className="relative rounded-[2rem] overflow-hidden bg-slate-950 p-12 md:p-24 text-center">
+            {/* Minimal pattern */}
+            <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '16px 16px' }} />
             
             <div className="relative z-10 flex flex-col items-center">
               <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-8 leading-[1.1]">
@@ -458,7 +458,7 @@ export default function Home() {
 
             {isSubmitted ? (
               <div className="py-12 flex flex-col items-center text-center gap-6 animate-fade-in">
-                <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white shadow-xl shadow-green-200">
+                <div className="w-20 h-20 bg-green-600 rounded-full flex items-center justify-center text-white shadow-lg">
                   <CheckCircle2 className="w-10 h-10" />
                 </div>
                 <div>
