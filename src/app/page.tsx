@@ -1,7 +1,7 @@
 'use client';
 
 import VapiButton, { cn } from '@/components/VapiButton';
-import { Activity, Clock, CheckCircle2, User, Phone, ShieldCheck, CalendarCheck, ArrowRight, X, Send, Loader2 } from 'lucide-react';
+import { Activity, Clock, CheckCircle2, User, Phone, ShieldCheck, CalendarCheck, ArrowRight, X, Send, Loader2, Gauge, Zap, TrendingUp, Building2, Globe, Database } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
@@ -110,12 +110,12 @@ export default function Home() {
           </div>
 
           <h1 className="text-6xl md:text-8xl font-black tracking-tight text-center mb-10 leading-[0.95] max-w-4xl">
-            The next-gen <br /> 
-            <span className="text-gradient">receptionist is here.</span>
+            Go live with AI <br /> 
+            <span className="text-gradient">in just 5 minutes.</span>
           </h1>
 
           <p className="text-xl md:text-2xl text-zinc-500 text-center max-w-2xl mb-16 leading-relaxed font-medium">
-            Automate intake, qualify leads, and scale your business with zero latency AI voice.
+            The world's fastest way to automate your front-desk, qualify leads, and scale your business with zero-latency voice.
           </p>
 
           {/* Core Demo Section */}

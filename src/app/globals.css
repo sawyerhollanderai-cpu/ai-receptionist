@@ -7,10 +7,10 @@ html {
 :root {
   --background: #FFFFFF;
   --foreground: #0F172A;
-  --deep-blue: #1E3A5F;
-  --accent-blue: #3B82F6;
+  --deep-blue: #1A4B84;
+  --accent-blue: #5D7BFF;
   --soft-gray: #F8FAFC;
-  --border-color: rgba(30, 58, 95, 0.08);
+  --border-color: rgba(93, 123, 255, 0.1);
 }
 
 @theme inline {
@@ -65,10 +65,10 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Glassmorphism Utilities */
 .glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px) saturate(190%);
+  -webkit-backdrop-filter: blur(16px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .glass-dark {
@@ -87,7 +87,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #1E3A5F 0%, #3B82F6 100%);
+  background: linear-gradient(135deg, #1A4B84 0%, #5D7BFF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
