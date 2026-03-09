@@ -128,19 +128,24 @@ export default function Home() {
               {/* Internal subtle glow */}
               <div className="absolute inset-0 bg-gradient-to-tr from-deep-blue/[0.02] to-transparent pointer-events-none" />
               
-              <div className="relative z-10 flex flex-col items-center gap-12">
+              <div className="relative z-10 flex flex-col items-center gap-10">
                 <div className="flex flex-col items-center gap-3">
                   <div className="h-1 w-16 bg-deep-blue/10 rounded-full" />
-                  <h2 className="text-xs font-black uppercase tracking-[0.3em] text-zinc-300">Live Demo</h2>
+                  <h2 className="text-xs font-black uppercase tracking-[0.3em] text-zinc-300">Live Browser Demo</h2>
                 </div>
                 
                 <VapiButton visitorId={visitorId} />
                 
-                <div className="text-center group-hover:transform group-hover:translate-y-[-5px] transition-transform duration-500">
-                  <p className="text-zinc-400 text-sm font-medium mb-1">Say something like...</p>
-                  <p className="max-w-xs text-xl font-bold text-deep-blue italic leading-relaxed">
-                    &quot;Hey Sarah, can you find me a slot tomorrow morning?&quot;
-                  </p>
+                <div className="p-8 bg-zinc-50/50 rounded-3xl border border-zinc-100 flex flex-col items-center gap-4 group-hover:bg-white/80 transition-all duration-500">
+                  <div className="w-14 h-14 bg-deep-blue rounded-2xl flex items-center justify-center shadow-xl shadow-deep-blue/10">
+                    <Phone className="w-7 h-7 text-white" />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-1">Live Phone Demo</p>
+                    <p className="text-2xl font-black text-deep-blue tracking-tight">
+                      (929) 376-0044
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -230,49 +235,62 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Process Section - High-Fidelity Timeline */}
-        <section id="experience" className="max-w-6xl mx-auto px-6 mb-32 relative scroll-mt-32">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-deep-blue mb-4">
-              Simple. <span className="text-zinc-400 font-medium">Powerful.</span> Seamless.
+        {/* Social Proof Logos */}
+        <section className="max-w-6xl mx-auto px-6 mb-32">
+          <p className="text-center text-[10px] font-black uppercase tracking-[0.4em] text-zinc-300 mb-12">Trusted by builders at</p>
+          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 grayscale opacity-30 hover:opacity-60 transition-opacity">
+            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-zinc-400"><Building2 className="w-8 h-8"/> HUB<span>SPOT</span></div>
+            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-zinc-400"><Globe className="w-8 h-8"/> ZAP<span>IER</span></div>
+            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-zinc-400"><Database className="w-8 h-8"/> MONGO<span>DB</span></div>
+            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-zinc-400"><Zap className="w-8 h-8"/> STRIPE</div>
+          </div>
+        </section>
+
+        {/* ROI / Stats Section */}
+        <section className="max-w-6xl mx-auto px-6 mb-40">
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { stat: "$840K+", label: "New Revenue Generated", icon: <TrendingUp className="w-6 h-6" />, color: "bg-green-500" },
+              { stat: "3,000%", label: "Average ROI", icon: <Gauge className="w-6 h-6" />, color: "bg-deep-blue" },
+              { stat: "100%", label: "Call Answer Rate", icon: <CheckCircle2 className="w-6 h-6" />, color: "bg-accent-blue" },
+            ].map((item, i) => (
+              <div key={i} className="glass p-10 rounded-[2.5rem] border-white group hover:-translate-y-2 transition-all duration-500">
+                <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center text-white mb-8 shadow-lg", item.color)}>
+                  {item.icon}
+                </div>
+                <h3 className="text-5xl font-black tracking-tighter text-deep-blue mb-4 group-hover:scale-105 transition-transform origin-left">{item.stat}</h3>
+                <p className="text-sm font-bold text-zinc-400 uppercase tracking-widest">{item.label}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Structured Process Section */}
+        <section id="experience" className="max-w-6xl mx-auto px-6 mb-40 scroll-mt-32">
+          <div className="text-center mb-24">
+            <h2 className="text-5xl md:text-6xl font-black tracking-tight text-deep-blue mb-6">
+              Three steps to <span className="text-zinc-300 uppercase italic font-medium">Freedom.</span>
             </h2>
-            <p className="text-zinc-500 font-medium tracking-tight">Three steps to a 24/7 automated business.</p>
+            <p className="text-zinc-500 font-medium max-w-xl mx-auto">
+              We've refined the onboarding process to be as fast as a website launch.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
-            {/* Connecting lines for desktop */}
-            <div className="hidden md:block absolute top-[2.25rem] left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-transparent via-zinc-100 to-transparent z-0" />
+          <div className="grid lg:grid-cols-3 gap-16 relative">
+            {/* Connecting Line (Desktop) */}
+            <div className="hidden lg:block absolute top-24 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-zinc-200 to-transparent z-0" />
             
             {[
-              { 
-                step: "01", 
-                title: "Inbound Call", 
-                desc: "Sarah picks up within 1 second, answering with your professional business greeting.",
-                icon: Phone,
-                color: "text-blue-600 bg-blue-50"
-              },
-              { 
-                step: "02", 
-                title: "AI Triage", 
-                desc: "Sarah identifies the patient's needs and checks your schedule in real-time.",
-                icon: ShieldCheck,
-                color: "text-indigo-600 bg-indigo-50"
-              },
-              { 
-                step: "03", 
-                title: "Live Booking", 
-                desc: "The appointment is booked and your team receives an instant notification.",
-                icon: CalendarCheck,
-                color: "text-accent-blue bg-blue-50"
-              }
+              { step: "01", title: "Train & Deploy", desc: "Upload your business info and Sarah builds her persona in 60 seconds." },
+              { step: "02", title: "Route Traffic", desc: "Connect your existing phone line or get a new local number instantly." },
+              { step: "03", title: "Automate Growth", desc: "Watch Sarah book appointments and log leads directly into your CRM." },
             ].map((item, i) => (
-              <div key={i} className="relative z-10 flex flex-col items-center text-center group">
-                <div className={cn("w-16 h-16 rounded-2xl flex items-center justify-center mb-8 shadow-sm group-hover:scale-110 group-hover:shadow-xl transition-all duration-500", item.color)}>
-                  <item.icon className="w-8 h-8" />
+              <div key={i} className="relative z-10 group">
+                <div className="w-16 h-16 rounded-3xl bg-white border border-zinc-100 shadow-xl flex items-center justify-center text-2xl font-black text-deep-blue mb-10 group-hover:bg-deep-blue group-hover:text-white transition-all duration-500 group-hover:scale-110">
+                  {item.step}
                 </div>
-                <div className="text-[10px] font-black text-deep-blue/20 uppercase tracking-[0.5em] mb-2">{item.step}</div>
-                <h3 className="text-2xl font-bold text-deep-blue mb-4">{item.title}</h3>
-                <p className="text-zinc-500 text-sm leading-relaxed font-medium max-w-[240px]">{item.desc}</p>
+                <h3 className="text-2xl font-black text-deep-blue mb-4">{item.title}</h3>
+                <p className="text-zinc-500 leading-relaxed font-medium">{item.desc}</p>
               </div>
             ))}
           </div>
