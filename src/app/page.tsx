@@ -545,6 +545,11 @@ export default function Home() {
                 <InlineWidget 
                   url="https://calendly.com/sawyerhollanderai/30min"
                   styles={{ height: '650px', width: '100%' }}
+                  pageSettings={{
+                    hideLandingPageDetails: true,
+                    hideEventTypeDetails: false,
+                    primaryColor: '1e293b',
+                  }}
                 />
               </div>
             </div>
