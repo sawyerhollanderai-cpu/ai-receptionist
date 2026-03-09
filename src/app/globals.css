@@ -7,10 +7,10 @@ html {
 :root {
   --background: #FFFFFF;
   --foreground: #0F172A;
-  --deep-blue: #1A4B84;
-  --accent-blue: #5D7BFF;
-  --soft-gray: #F8FAFC;
-  --border-color: rgba(93, 123, 255, 0.1);
+  --deep-blue: #0F172A;
+  --accent-blue: #2563EB;
+  --soft-gray: #F1F5F9;
+  --border-color: #E2E8F0;
 }
 
 @theme inline {
@@ -23,20 +23,8 @@ html {
   --font-sans: var(--font-inter);
   --font-heading: var(--font-poppins);
   
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-pulse-slow: pulse-slow 8s ease-in-out infinite;
-  --animate-fade-in: fade-in 1s ease-out forwards;
-  --animate-fade-in-up: fade-in-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-  }
-  
-  @keyframes pulse-slow {
-    0%, 100% { opacity: 0.3; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(1.1); }
-  }
+  --animate-fade-in: fade-in 0.8s ease-out forwards;
+  --animate-fade-in-up: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   
   @keyframes fade-in-up {
     from {
@@ -65,10 +53,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Glassmorphism Utilities */
 .glass {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(16px) saturate(190%);
-  -webkit-backdrop-filter: blur(16px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: white;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
 }
 
 .glass-dark {
@@ -77,17 +64,11 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid rgba(30, 58, 95, 0.05);
 }
 
-/* Mesh Gradient Background */
-.mesh-gradient {
-  background-color: #ffffff;
-  background-image: 
-    radial-gradient(at 0% 0%, hsla(214, 52%, 25%, 0.05) 0, transparent 50%), 
-    radial-gradient(at 50% 0%, hsla(214, 52%, 25%, 0.03) 0, transparent 50%), 
-    radial-gradient(at 100% 0%, hsla(214, 52%, 25%, 0.05) 0, transparent 50%);
+/* Minimalist Background */
+.minimal-bg {
+  background-color: #FFFFFF;
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #1A4B84 0%, #5D7BFF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--deep-blue);
 }

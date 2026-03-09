@@ -69,13 +69,8 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen mesh-gradient text-zinc-900 selection:bg-deep-blue/10 selection:text-white">
-      {/* ... (rest of the dynamic background and nav) ... */}
-      {/* Dynamic Background Elements */}
-      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[10%] left-[5%] w-[40rem] h-[40rem] bg-deep-blue/5 rounded-full blur-[120px] animate-pulse-slow" />
-        <div className="absolute bottom-[10%] right-[5%] w-[35rem] h-[35rem] bg-accent-blue/5 rounded-full blur-[120px] animate-pulse-slow delay-700" />
-      </div>
+    <main className="min-h-screen minimal-bg text-zinc-900 selection:bg-deep-blue/10 selection:text-white">
+      {/* Navigation */}
 
       {/* Navigation */}
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50">
@@ -101,17 +96,13 @@ export default function Home() {
       <div className="relative z-10 pt-48 pb-32">
         {/* Cinematic Hero */}
         <section id="demo" className="max-w-6xl mx-auto px-6 mb-24 flex flex-col items-center scroll-mt-48">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-deep-blue/10 text-[10px] font-bold uppercase tracking-[0.2em] text-deep-blue shadow-sm mb-10 transition-transform hover:scale-105">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-deep-blue opacity-50"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-deep-blue"></span>
-            </span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 shadow-sm mb-10">
             24/7 Virtual Receptionist
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-black tracking-tight text-center mb-10 leading-[0.95] max-w-4xl">
+          <h1 className="text-6xl md:text-8xl font-black tracking-tight text-center mb-10 leading-[0.95] max-w-4xl text-deep-blue">
             Go live with AI <br /> 
-            <span className="text-gradient">in just 5 minutes.</span>
+            in just 5 minutes.
           </h1>
 
           <p className="text-xl md:text-2xl text-zinc-500 text-center max-w-2xl mb-16 leading-relaxed font-medium">
@@ -120,28 +111,21 @@ export default function Home() {
 
           {/* Core Demo Section */}
           <div className="relative w-full max-w-3xl flex justify-center">
-            {/* Decorator blob for WOW factor */}
-            <div className="absolute -top-12 -left-12 w-24 h-24 bg-accent-blue/10 rounded-full blur-xl animate-float" />
-            <div className="absolute -bottom-12 -right-12 w-32 h-32 bg-deep-blue/10 rounded-full blur-xl animate-float delay-1000" />
-            
-            <div className="w-full bg-white/40 backdrop-blur-3xl border border-white/60 rounded-[3rem] p-16 shadow-[0_40px_100px_rgba(0,0,0,0.08)] relative overflow-hidden group">
-              {/* Internal subtle glow */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-deep-blue/[0.02] to-transparent pointer-events-none" />
-              
+            <div className="w-full bg-white border border-slate-200 rounded-[2rem] p-16 shadow-lg relative overflow-hidden group">
               <div className="relative z-10 flex flex-col items-center gap-10">
                 <div className="flex flex-col items-center gap-3">
-                  <div className="h-1 w-16 bg-deep-blue/10 rounded-full" />
-                  <h2 className="text-xs font-black uppercase tracking-[0.3em] text-zinc-300">Live Browser Demo</h2>
+                  <div className="h-1 w-16 bg-slate-100 rounded-full" />
+                  <h2 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400">Live Browser Demo</h2>
                 </div>
                 
                 <VapiButton visitorId={visitorId} />
                 
-                <div className="p-8 bg-zinc-50/50 rounded-3xl border border-zinc-100 flex flex-col items-center gap-4 group-hover:bg-white/80 transition-all duration-500">
-                  <div className="w-14 h-14 bg-deep-blue rounded-2xl flex items-center justify-center shadow-xl shadow-deep-blue/10">
+                <div className="p-8 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col items-center gap-4 group-hover:bg-slate-100/50 transition-all duration-500">
+                  <div className="w-14 h-14 bg-deep-blue rounded-xl flex items-center justify-center shadow-xl shadow-deep-blue/10">
                     <Phone className="w-7 h-7 text-white" />
                   </div>
                   <div className="text-center">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-1">Live Phone Demo</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Live Phone Demo</p>
                     <p className="text-2xl font-black text-deep-blue tracking-tight">
                       (929) 376-0044
                     </p>
@@ -169,19 +153,19 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="glass rounded-[2.5rem] border-white/60 shadow-2xl overflow-hidden">
+          <div className="bg-white rounded-[2rem] border border-slate-200 shadow-xl overflow-hidden">
             {/* Dashboard Header */}
-            <div className="px-8 py-6 bg-white/40 border-b border-zinc-100 flex items-center justify-between">
+            <div className="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="flex gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-zinc-200" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-zinc-200" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
                 </div>
-                <span className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.3em]">Sarah CRM v1.0</span>
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Sarah CRM v1.0</span>
               </div>
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-green-50 rounded-lg border border-green-100">
-                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-[9px] font-black text-green-700 uppercase tracking-widest uppercase tracking-widest">Systems Active</span>
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-green-50 rounded-lg border border-green-200">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                <span className="text-[9px] font-black text-green-700 uppercase tracking-widest">Systems Active</span>
               </div>
             </div>
 
@@ -237,12 +221,12 @@ export default function Home() {
 
         {/* Social Proof Logos */}
         <section className="max-w-6xl mx-auto px-6 mb-32">
-          <p className="text-center text-[10px] font-black uppercase tracking-[0.4em] text-zinc-300 mb-12">Trusted by builders at</p>
-          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 grayscale opacity-30 hover:opacity-60 transition-opacity">
-            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-zinc-400"><Building2 className="w-8 h-8"/> HUB<span>SPOT</span></div>
-            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-zinc-400"><Globe className="w-8 h-8"/> ZAP<span>IER</span></div>
-            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-zinc-400"><Database className="w-8 h-8"/> MONGO<span>DB</span></div>
-            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-zinc-400"><Zap className="w-8 h-8"/> STRIPE</div>
+          <p className="text-center text-[10px] font-black uppercase tracking-[0.4em] text-slate-300 mb-12">Trusted by builders at</p>
+          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 grayscale opacity-20 hover:opacity-50 transition-opacity">
+            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-slate-400"><Building2 className="w-8 h-8"/> HUB<span>SPOT</span></div>
+            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-slate-400"><Globe className="w-8 h-8"/> ZAP<span>IER</span></div>
+            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-slate-400"><Database className="w-8 h-8"/> MONGO<span>DB</span></div>
+            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-slate-400"><Zap className="w-8 h-8"/> STRIPE</div>
           </div>
         </section>
 
@@ -250,16 +234,16 @@ export default function Home() {
         <section className="max-w-6xl mx-auto px-6 mb-40">
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { stat: "$840K+", label: "New Revenue Generated", icon: <TrendingUp className="w-6 h-6" />, color: "bg-green-500" },
-              { stat: "3,000%", label: "Average ROI", icon: <Gauge className="w-6 h-6" />, color: "bg-deep-blue" },
+              { stat: "$840K+", label: "New Revenue Generated", icon: <TrendingUp className="w-6 h-6" />, color: "bg-green-600" },
+              { stat: "3,000%", label: "Average ROI", icon: <Gauge className="w-6 h-6" />, color: "bg-slate-900" },
               { stat: "100%", label: "Call Answer Rate", icon: <CheckCircle2 className="w-6 h-6" />, color: "bg-accent-blue" },
             ].map((item, i) => (
-              <div key={i} className="glass p-10 rounded-[2.5rem] border-white group hover:-translate-y-2 transition-all duration-500">
-                <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center text-white mb-8 shadow-lg", item.color)}>
+              <div key={i} className="bg-white border border-slate-200 p-10 rounded-3xl group hover:border-slate-300 transition-all duration-300">
+                <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center text-white mb-8", item.color)}>
                   {item.icon}
                 </div>
-                <h3 className="text-5xl font-black tracking-tighter text-deep-blue mb-4 group-hover:scale-105 transition-transform origin-left">{item.stat}</h3>
-                <p className="text-sm font-bold text-zinc-400 uppercase tracking-widest">{item.label}</p>
+                <h3 className="text-5xl font-black tracking-tighter text-deep-blue mb-4 transition-transform origin-left">{item.stat}</h3>
+                <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{item.label}</p>
               </div>
             ))}
           </div>
@@ -269,16 +253,16 @@ export default function Home() {
         <section id="experience" className="max-w-6xl mx-auto px-6 mb-40 scroll-mt-32">
           <div className="text-center mb-24">
             <h2 className="text-5xl md:text-6xl font-black tracking-tight text-deep-blue mb-6">
-              Three steps to <span className="text-zinc-300 uppercase italic font-medium">Freedom.</span>
+              Three steps to <span className="text-slate-900 font-black">Freedom.</span>
             </h2>
-            <p className="text-zinc-500 font-medium max-w-xl mx-auto">
+            <p className="text-slate-500 font-medium max-w-xl mx-auto">
               We've refined the onboarding process to be as fast as a website launch.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-16 relative">
             {/* Connecting Line (Desktop) */}
-            <div className="hidden lg:block absolute top-24 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-zinc-200 to-transparent z-0" />
+            <div className="hidden lg:block absolute top-24 left-[10%] right-[10%] h-px bg-slate-100 z-0" />
             
             {[
               { step: "01", title: "Train & Deploy", desc: "Upload your business info and Sarah builds her persona in 60 seconds." },
@@ -286,11 +270,11 @@ export default function Home() {
               { step: "03", title: "Automate Growth", desc: "Watch Sarah book appointments and log leads directly into your CRM." },
             ].map((item, i) => (
               <div key={i} className="relative z-10 group">
-                <div className="w-16 h-16 rounded-3xl bg-white border border-zinc-100 shadow-xl flex items-center justify-center text-2xl font-black text-deep-blue mb-10 group-hover:bg-deep-blue group-hover:text-white transition-all duration-500 group-hover:scale-110">
+                <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center text-2xl font-black text-deep-blue mb-10 group-hover:bg-deep-blue group-hover:text-white transition-all duration-300">
                   {item.step}
                 </div>
                 <h3 className="text-2xl font-black text-deep-blue mb-4">{item.title}</h3>
-                <p className="text-zinc-500 leading-relaxed font-medium">{item.desc}</p>
+                <p className="text-slate-500 leading-relaxed font-medium">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -298,9 +282,7 @@ export default function Home() {
 
         {/* Booking Section */}
         <section id="book" className="max-w-6xl mx-auto px-6 mb-32 scroll-mt-24">
-          <div className="bg-white/40 backdrop-blur-3xl border border-white/40 rounded-[3rem] p-12 md:p-20 shadow-2xl relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-deep-blue/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-deep-blue/10 transition-colors duration-700" />
-            
+          <div className="bg-white border border-slate-200 rounded-[2rem] p-12 md:p-20 shadow-xl relative overflow-hidden group">
             <div className="grid lg:grid-cols-2 gap-20 items-center relative z-10">
               <div>
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-deep-blue/5 text-[10px] font-black uppercase tracking-widest text-deep-blue mb-8">
@@ -369,15 +351,14 @@ export default function Home() {
 
         {/* Final CTA - For the Sales Pitch */}
         <section className="max-w-5xl mx-auto px-6 mb-32">
-          <div className="relative rounded-[3rem] overflow-hidden bg-deep-blue p-12 md:p-24 text-center">
+          <div className="relative rounded-[2rem] overflow-hidden bg-deep-blue p-12 md:p-24 text-center">
             {/* Background pattern */}
-            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
-            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
             
             <div className="relative z-10 flex flex-col items-center">
               <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-8 leading-[1.1]">
-                Stop losing patients <br />
-                <span className="opacity-50">to voicemail.</span>
+                Stop losing leads <br />
+                <span className="opacity-40">to voicemail.</span>
               </h2>
               <p className="text-white/70 text-lg md:text-xl font-medium max-w-xl mb-12">
                 Join the elite group of businesses using Sarah to dominate their local market.
@@ -408,16 +389,16 @@ export default function Home() {
             { 
               title: "Smart Triage", 
               label: "Lead Qualification", 
-              desc: "Automatically identifies emergency cases and prioritizes them in your notification center." 
+              desc: "Automatically identifies urgent cases and prioritizes them in your notification center." 
             },
           ].map((feature, i) => (
-            <div key={i} className="glass group p-10 rounded-[2rem] hover:shadow-[0_20px_40px_rgba(0,0,0,0.04)] transition-all duration-500 hover:-translate-y-2 border-white">
-              <div className="w-12 h-12 bg-deep-blue/5 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-deep-blue group-hover:text-white transition-colors duration-500">
+            <div key={i} className="bg-white border border-slate-200 group p-10 rounded-2xl transition-all duration-300 hover:border-slate-300">
+              <div className="w-12 h-12 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center mb-8 group-hover:bg-deep-blue group-hover:text-white transition-colors duration-300">
                 <div className="w-6 h-6 border-2 border-current rounded-lg" />
               </div>
               <h3 className="text-2xl font-bold text-deep-blue mb-2">{feature.title}</h3>
-              <div className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-6">{feature.label}</div>
-              <p className="text-zinc-500 leading-relaxed font-medium">{feature.desc}</p>
+              <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-6">{feature.label}</div>
+              <p className="text-slate-500 leading-relaxed font-medium">{feature.desc}</p>
             </div>
           ))}
         </section>
@@ -453,8 +434,8 @@ export default function Home() {
             <Link href="/terms" className="hover:text-deep-blue transition-colors">Terms</Link>
           </div>
           
-          <p className="text-[10px] font-bold text-zinc-300 uppercase tracking-[0.2em]">
-            © 2026 ReceptionistAI — Built for High Performance
+          <p className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">
+            © 2026 ReceptionistAI | Built for High Performance
           </p>
         </div>
       </footer>
@@ -463,11 +444,11 @@ export default function Home() {
       {isContactOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 animate-fade-in shadow-2xl">
           <div 
-            className="absolute inset-0 bg-deep-blue/20 backdrop-blur-md"
+            className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
             onClick={() => !isSubmitting && setIsContactOpen(false)}
           />
           
-          <div className="relative w-full max-w-xl bg-white rounded-[2.5rem] shadow-2xl border border-zinc-100 p-10 md:p-12 animate-fade-in-up">
+          <div className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-slate-200 p-10 md:p-12 animate-fade-in-up">
             <button 
               onClick={() => setIsContactOpen(false)}
               className="absolute top-8 right-8 p-2 text-zinc-400 hover:text-deep-blue transition-colors"
@@ -535,7 +516,7 @@ export default function Home() {
 
                   <button 
                     disabled={isSubmitting}
-                    className="w-full py-5 bg-deep-blue text-white rounded-2xl font-black uppercase text-xs tracking-[0.2em] shadow-lg shadow-deep-blue/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                    className="w-full py-5 bg-deep-blue text-white rounded-xl font-bold uppercase text-[10px] tracking-[0.2em] shadow-lg shadow-deep-blue/20 hover:bg-slate-900 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
                   >
                     {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-4 h-4" />}
                     {isSubmitting ? "Sending..." : "Send Message"}

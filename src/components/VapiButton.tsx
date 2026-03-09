@@ -125,36 +125,22 @@ Strict Rules:
       )}
       
       <div className="relative group flex items-center justify-center">
-        {/* Deep background pulsing rings for WOW effect */}
+        {/* Pulsing state for active session */}
         {isSessionActive && (
-          <>
-            <div className="absolute inset-0 rounded-full bg-deep-blue/20 blur-3xl animate-pulse-slow scale-150" />
-            <div className="absolute inset-[-40px] rounded-full border border-deep-blue/5 animate-pulse" style={{ animationDuration: '4s' }} />
-            <div className="absolute inset-[-80px] rounded-full border border-deep-blue/5 animate-pulse" style={{ animationDuration: '6s' }} />
-          </>
+          <div className="absolute inset-[-10px] rounded-full border border-accent-blue/20 animate-pulse" />
         )}
 
         <button
           onClick={toggleCall}
           disabled={isConnecting}
           className={cn(
-            "relative z-20 w-32 h-32 rounded-full transition-all duration-700 ease-out flex items-center justify-center overflow-hidden",
+            "relative z-20 w-32 h-32 rounded-full transition-all duration-300 ease-out flex items-center justify-center overflow-hidden border border-slate-200",
             isSessionActive 
-              ? "scale-110 shadow-[0_20px_60px_rgba(30,58,95,0.4)]" 
-              : "hover:scale-105 shadow-[0_15px_40px_rgba(30,58,95,0.1)] hover:shadow-[0_25px_50px_rgba(30,58,95,0.15)]",
+              ? "bg-accent-blue shadow-lg border-accent-blue" 
+              : "bg-white hover:bg-slate-50 shadow-sm hover:border-slate-300",
             isConnecting && "opacity-80 scale-95 pointer-events-none"
           )}
         >
-          {/* Internal Glows */}
-          <div 
-            className={cn(
-              "absolute inset-0 transition-opacity duration-1000",
-              isSessionActive ? "bg-deep-blue opacity-100" : "bg-white opacity-100"
-            )} 
-          />
-          
-          <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none" />
-
           {/* Inner Content */}
           <div className="relative z-10 flex flex-col items-center justify-center gap-2">
             {isConnecting ? (
@@ -175,10 +161,7 @@ Strict Rules:
             )}
           </div>
 
-          {/* Ripple Effect Animation */}
-          {isSessionActive && (
-            <div className="absolute inset-0 bg-white/5 animate-pulse" />
-          )}
+          {/* No ripple for minimalist look */}
         </button>
 
         {/* Hover label */}
@@ -192,9 +175,9 @@ Strict Rules:
       {/* Visual Status Indicator */}
       <div className="flex flex-col items-center gap-2 mt-4">
         <div className="flex items-center gap-1.5">
-          <div className={cn("w-1 h-1 rounded-full bg-zinc-300", isSessionActive && "bg-deep-blue scale-150 transition-all")} />
-          <div className={cn("w-1 h-1 rounded-full bg-zinc-300", isSessionActive && "bg-deep-blue/60 scale-125 transition-all")} />
-          <div className={cn("w-1 h-1 rounded-full bg-zinc-300", isSessionActive && "bg-deep-blue/30 transition-all")} />
+          <div className={cn("w-1.5 h-1.5 rounded-full bg-zinc-300", isSessionActive && "bg-accent-blue scale-150 transition-all")} />
+          <div className={cn("w-1.5 h-1.5 rounded-full bg-zinc-300", isSessionActive && "bg-accent-blue/60 scale-125 transition-all")} />
+          <div className={cn("w-1.5 h-1.5 rounded-full bg-zinc-300", isSessionActive && "bg-accent-blue/30 transition-all")} />
         </div>
         <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.2em]">
           {isSessionActive ? "Sarah is Listening" : isConnecting ? "Connecting to Sarah" : "Terminal Offline"}
