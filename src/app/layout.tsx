@@ -14,8 +14,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "West Hartford Dentist - AI Receptionist",
-  description: "Never miss a call again with our AI-powered voice receptionist.",
+  title: "ReceptionistAI - 24/7 Virtual Voice Agent",
+  description: "Automate your business calls and bookings with our next-gen AI receptionist.",
 };
 
 export default function RootLayout({

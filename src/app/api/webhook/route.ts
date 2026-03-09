@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 
       console.log(`Processing ${toolCalls.length} tool calls...`);
       
-      const results = toolCalls.map((tc: any) => {
+      const results = await Promise.all(toolCalls.map(async (tc: any) => {
         // Handle different Vapi payload versions
         const call = tc.toolCall || tc;
         
@@ -38,6 +38,22 @@ export async function POST(req: Request) {
             const { date, time, patientName } = args;
             
             console.log(`[MOCK BOOKING] Appointment booked for ${patientName} on ${date} at ${time}`);
+
+            // Extract visitorId from Vapi call metadata
+            const visitorId = message.call?.metadata?.visitorId || "unknown_visitor";
+
+            // NEW: Save the lead to our local CRM API so it shows up on the landing page
+            try {
+              const baseUrl = process.env.NEXT_PUBLIC_TUNNEL_URL || "http://localhost:3000";
+              await fetch(`${baseUrl}/api/leads`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...args, visitorId }),
+              });
+              console.log(`[CRM] Lead saved for visitor: ${visitorId}`);
+            } catch (e) {
+              console.error('[CRM] Failed to save lead:', e);
+            }
             
             return {
               toolCallId: call.id,
@@ -53,7 +69,7 @@ export async function POST(req: Request) {
           toolCallId: call.id,
           result: `Error: Unknown function "${call.function.name}".`
         };
-      });
+      }));
 
       console.log('Returning results to Vapi:', JSON.stringify(results));
       return NextResponse.json({ results });

@@ -1,6 +1,7 @@
-# 🎙️ West Hartford Dentist — AI Voice Receptionist
+# 🎤 ReceptionistAI - 24/7 Virtual Voice Agent
 
-An ultra-premium, zero-latency AI voice assistant designed to handle dental practice intake, lead qualification, and appointment scheduling 24/7.
+**The future of business communication is here.** ReceptionistAI is an ultra-premium, zero-latency voice agent built to automate intake, qualify leads, and scale businesses without human intervention.
+, and appointment scheduling 24/7.
 
 ![Project Status](https://img.shields.io/badge/Status-Building%20in%20Public-blueviolet?style=for-the-badge)
 ![Tech Stack](https://img.shields.io/badge/Tech-Next.js%20%7C%20Vapi%20%7C%20OpenAI-blue?style=for-the-badge)

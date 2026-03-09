@@ -10,21 +10,16 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export default function VapiButton() {
+export default function VapiButton({ visitorId }: { visitorId: string | null }) {
   const [isSessionActive, setIsSessionActive] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const vapiRef = useRef<Vapi | null>(null);
 
-  // Initialize Vapi instance
+  // ... (useEffect for Vapi initialization remains same) ...
   useEffect(() => {
-    // We instantiate Vapi with a public key (you will need to provide one in .env.local)
-    // If not provided, it won't connect properly but we handle the error.
     const pk = process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY || 'your-public-key';
-    
-    // Initialize standard VAPI only on client-side
     vapiRef.current = new Vapi(pk);
-    
     const vapi = vapiRef.current;
 
     vapi.on('call-start', () => {
@@ -40,17 +35,14 @@ export default function VapiButton() {
 
     vapi.on('error', (e) => {
       console.error('Vapi Web SDK error raw:', e);
-      console.error('Vapi Web SDK error stringified:', JSON.stringify(e, Object.getOwnPropertyNames(e)));
-      setError(e.message || JSON.stringify(e, Object.getOwnPropertyNames(e)) || 'An error occurred with the voice agent.');
+      setError(e.message || 'An error occurred with the voice agent.');
       setIsConnecting(false);
       setIsSessionActive(false);
     });
 
     return () => {
       vapi.removeAllListeners();
-      if (isSessionActive) {
-        vapi.stop();
-      }
+      if (isSessionActive) vapi.stop();
     };
   }, []);
 
@@ -64,38 +56,31 @@ export default function VapiButton() {
       setIsConnecting(true);
       setError(null);
       try {
-        // Start the agent call using an Assistant ID from the dashboard
         const assistantId = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID;
-        
-        if (!assistantId) {
-          throw new Error('Please set NEXT_PUBLIC_VAPI_ASSISTANT_ID in .env.local');
-        }
+        if (!assistantId) throw new Error('Assistant ID not set');
 
-        // We can override the dashboard settings right here in the code
-        // and inject the Server URL and Tool so you don't have to find it in their UI!
-        const tunnelUrl = process.env.NEXT_PUBLIC_TUNNEL_URL || "https://giant-nails-enter.loca.lt";
-        
+        // Correctly pass the visitorId in call metadata
         await vapi.start(assistantId, {
-          // Point the AI to our Tunnel URL when it needs to call a function
-          server: { url: `${tunnelUrl}/api/webhook` },
-          
-          // Inject the tool so the AI knows it can book appointments
+          metadata: {
+            visitorId: visitorId || "unknown_visitor"
+          },
+          // Overriding the prompt for ReceptionistAI branding
           model: {
             provider: 'openai',
             model: 'gpt-4o-mini',
             messages: [
               {
                 role: 'system',
-                content: `You are Sarah, the highly efficient front-desk scheduler for "West Hartford Dentist".
-
+                content: `You are Sarah, the highly efficient virtual receptionist for "ReceptionistAI".
+ 
 Goal: Answer the phone warmly, ask for their name, ask why they are calling, and book an appointment slot.
-
+ 
 Strict Rules:
-1. YOU ARE NOT A MEDICAL PROFESSIONAL. Never ask for details about their symptoms, pain, teeth, or medical history. 
-2. If they mention symptoms, interrupt them politely and say: "I understand. Let's get you on the schedule right away so the dentist can evaluate that."
-3. Keep all responses under 2 sentences. Your communication must be extremely brief and conversational.
-4. Ask only ONE question at a time.
-5. To book them, simply ask if they prefer "Mornings or Afternoons", pick a random time slot, and say "You're all set, we'll see you then!"`
+1. YOU ARE A DEMO AI. Your purpose is to show how effectively ReceptionistAI can handle business calls.
+2. Keep all responses under 2 sentences. Your communication must be extremely brief and conversational.
+3. Ask only ONE question at a time.
+4. If the user asks about your capabilities, explain that you can book appointments, qualify leads, and handle routine inquiries 24/7.
+5. To book them, simply ask if they prefer "Mornings or Afternoons", pick a random time slot, and say "Your demo booking is confirmed! This is how I help businesses scale."`
               }
             ],
             tools: [
@@ -103,11 +88,11 @@ Strict Rules:
                 type: 'function',
                 function: {
                   name: 'bookAppointment',
-                  description: 'Book an appointment for a patient. Call this when the user agrees to a date and time.',
+                  description: 'Book an appointment. Call this when the user agrees to a date and time.',
                   parameters: {
                     type: 'object',
                     properties: {
-                      patientName: { type: 'string', description: 'The name of the patient' },
+                      patientName: { type: 'string', description: 'The name of the person' },
                       date: { type: 'string', description: 'The date (YYYY-MM-DD)' },
                       time: { type: 'string', description: 'The time (e.g. 10:00 AM)' }
                     },
@@ -117,8 +102,9 @@ Strict Rules:
               }
             ]
           },
-          firstMessage: "Hi, thanks for calling West Hartford Dentist. This is Sarah, how can I help you today?"
+          firstMessage: "Hi! Thanks for trying the ReceptionistAI Demo. This is Sarah, how can I help your business today?"
         });
+
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message || 'Failed to start call');
