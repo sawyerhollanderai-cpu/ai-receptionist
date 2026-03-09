@@ -53,7 +53,7 @@ export default function TermsPage() {
           <section className="mb-12">
             <h2 className="text-xl font-bold text-deep-blue mb-4 uppercase tracking-widest text-xs">04. Proprietary Rights</h2>
             <p className="text-zinc-600 leading-relaxed mb-4">
-              The design, code, and "ReceptionistAI" branding are the exclusive property of Sawyer Hollander.
+              The design, code, and &quot;ReceptionistAI&quot; branding are the exclusive property of ReceptionistAI.
             </p>
           </section>
         </div>

@@ -58,7 +58,7 @@ export default function PrivacyPage() {
           <section className="mb-12">
             <h2 className="text-xl font-bold text-deep-blue mb-4 uppercase tracking-widest text-xs">04. Contact</h2>
             <p className="text-zinc-600 leading-relaxed mb-4">
-              If you have questions about how we handle data, please contact us at hollandersawyer@gmail.com.
+              If you have questions about how we handle data, please contact us at support@receptionistai.com.
             </p>
           </section>
         </div>
