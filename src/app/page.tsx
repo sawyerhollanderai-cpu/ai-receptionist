@@ -1,23 +1,24 @@
 'use client';
 
-import VapiButton, { cn } from '@/components/VapiButton';
-import { Activity, Clock, CheckCircle2, User, Phone, ShieldCheck, CalendarCheck, ArrowRight, X, Send, Loader2, Gauge, Zap, TrendingUp, Building2, Globe, Database } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { cn } from '@/components/VapiButton';
+import { CheckCircle2, Phone, ArrowRight, X, Send, Loader2, BarChart2, Users, Zap, MessageSquare, Calendar } from 'lucide-react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 
 export default function Home() {
-  const [leads, setLeads] = useState<any[]>([]);
   const [visitorId, setVisitorId] = useState<string | null>(null);
-  
-  // Contact Form State
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [count1, setCount1] = useState(0);
+  const [count2, setCount2] = useState(0);
+  const [count3, setCount3] = useState(0);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const statsAnimated = useRef(false);
 
   useEffect(() => {
-    // Generate or retrieve visitor ID
     let id = localStorage.getItem('receptionist_visitor_id');
     if (!id) {
       id = `vis_${Math.random().toString(36).substr(2, 9)}_${Date.now()}`;
@@ -25,43 +26,68 @@ export default function Home() {
     }
     setVisitorId(id);
 
-    const fetchLeads = async () => {
-      if (!id) return;
-      try {
-        const res = await fetch(`/api/leads?visitorId=${id}`);
-        const data = await res.json();
-        setLeads(data);
-      } catch (err) {
-        console.error('Failed to fetch leads:', err);
-      }
-    };
+    // Scroll reveal
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach((el) => observer.observe(el));
 
-    fetchLeads();
-    const interval = setInterval(fetchLeads, 4000); // Poll every 4 seconds
-    return () => clearInterval(interval);
+    // Stats counter
+    const statsObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !statsAnimated.current) {
+            statsAnimated.current = true;
+            animateCount(setCount1, 128, 1200);
+            animateCount(setCount2, 342, 1500);
+            animateCount(setCount3, 12400, 2000);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    if (statsRef.current) statsObserver.observe(statsRef.current);
+
+    return () => {
+      observer.disconnect();
+      statsObserver.disconnect();
+    };
   }, []);
+
+  function animateCount(setter: (v: number) => void, target: number, duration: number) {
+    const start = Date.now();
+    const tick = () => {
+      const elapsed = Date.now() - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setter(Math.round(target * eased));
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
 
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setFormError(null);
-
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, visitorId }),
       });
-
       if (!res.ok) throw new Error('Failed to send message');
-      
       setIsSubmitted(true);
       setFormData({ name: '', email: '', message: '' });
-      setTimeout(() => {
-        setIsSubmitted(false);
-        setIsContactOpen(false);
-      }, 3000);
-    } catch (err) {
+      setTimeout(() => { setIsSubmitted(false); setIsContactOpen(false); }, 3000);
+    } catch {
       setFormError('Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -69,457 +95,631 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen minimal-bg text-zinc-900 selection:bg-deep-blue/10 selection:text-white">
-      {/* Navigation */}
+    <main className="min-h-screen bg-white text-slate-900 overflow-x-hidden">
 
-      {/* Navigation */}
+      {/* ── Navigation ── */}
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50">
-        <div className="glass h-16 px-8 rounded-2xl flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.05)] border-white/50">
+        <div className="bg-white/90 backdrop-blur-md h-16 px-8 rounded-lg flex items-center justify-between shadow-[0_4px_24px_rgba(0,0,0,0.07)] border border-slate-100">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-slate-900 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-9 h-9 bg-slate-900 rounded-xl flex items-center justify-center">
               <span className="text-white font-bold text-sm tracking-tighter">RA</span>
             </div>
-            <span className="text-xl font-bold tracking-tight text-deep-blue">ReceptionistAI</span>
+            <span className="text-xl font-bold tracking-tight text-slate-900">ReceptionistAI</span>
           </div>
-          <div className="hidden md:flex items-center gap-10 text-[13px] font-semibold text-zinc-500 uppercase tracking-widest">
-            <a href="#book" className="hover:text-deep-blue transition-all">Book a Demo</a>
-            <button 
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#features" className="text-[13px] font-semibold text-slate-500 hover:text-slate-900 transition-colors">Features</a>
+            <a href="#demo" className="text-[13px] font-semibold text-slate-500 hover:text-slate-900 transition-colors">Live Demo</a>
+            <a href="#book" className="text-[13px] font-semibold text-slate-500 hover:text-slate-900 transition-colors">Book a Call</a>
+            <button
               onClick={() => setIsContactOpen(true)}
-              className="px-6 py-2.5 bg-deep-blue text-white rounded-xl hover:bg-zinc-800 transition-all shadow-md shadow-deep-blue/10 active:scale-95 flex items-center gap-2"
+              className="px-5 py-2.5 bg-blue-600 text-white text-[13px] font-bold rounded-xl hover:bg-blue-700 transition-all shadow-md shadow-blue-600/20 active:scale-95"
             >
-              Message Us
+              Contact Sales
             </button>
           </div>
         </div>
       </nav>
 
-      <div className="relative z-10 pt-48 pb-32">
-        {/* Cinematic Hero */}
-        <section id="demo" className="max-w-6xl mx-auto px-6 mb-24 flex flex-col items-center scroll-mt-48">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 shadow-sm mb-10">
-            24/7 Virtual Receptionist
+      {/* ── Hero ── */}
+      <section id="demo" className="pt-40 pb-24 max-w-7xl mx-auto px-6 scroll-mt-32">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Left */}
+          <div className="reveal-left">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-100 rounded-lg text-blue-600 text-xs font-bold uppercase tracking-widest mb-8">
+              <span className="w-2 h-2 rounded-lg bg-blue-600 animate-pulse" />
+              AI Receptionist — 24/7
+            </div>
+            <h1 className="text-5xl md:text-7xl font-black text-slate-900 leading-[1.05] tracking-tighter mb-8">
+              Never Miss<br />
+              <span className="relative inline-block">
+                <span className="relative z-10 text-blue-600">Another Call.</span>
+                <svg className="absolute w-[110%] h-auto -bottom-2 -left-2 z-0 text-blue-200" viewBox="0 0 200 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 15C50 5 150 2 195 10" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M15 18C60 12 140 8 185 14" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" opacity="0.5" />
+                </svg>
+              </span>
+            </h1>
+            <p className="text-xl text-slate-500 font-medium leading-relaxed mb-10 max-w-lg">
+              ReceptionistAI picks up every call, books appointments, and qualifies leads — automatically. Try it now.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="tel:+18604071305"
+                className="flex items-center gap-3 px-8 py-4 bg-slate-900 text-white font-bold rounded-2xl text-sm hover:bg-slate-800 transition-all shadow-soft hover:-translate-y-0.5"
+              >
+                <Phone className="w-4 h-4" />
+                Call Live Demo
+              </a>
+              <a
+                href="#book"
+                className="flex items-center gap-3 px-8 py-4 bg-white border border-slate-200 text-slate-900 font-bold rounded-2xl text-sm hover:bg-slate-50 transition-all shadow-sm hover:-translate-y-0.5"
+              >
+                Book a Strategy Call <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-black tracking-tight text-center mb-10 leading-[0.95] max-w-4xl text-deep-blue">
-            Go live with AI <br /> 
-            in just 5 minutes.
-          </h1>
+          {/* Right — Live Demo CTA card */}
+          <div className="reveal-right relative">
+            {/* Organic Floating Tag */}
+            <div className="absolute -top-6 -left-6 bg-white border-2 border-slate-900 text-slate-900 font-bold px-4 py-2 rounded-2xl -rotate-6 shadow-soft z-20 flex items-center gap-2">
+              <span className="text-xl">👋</span> Hey, I&apos;m Sarah
+            </div>
+            
+            <div className="bg-slate-50 border border-slate-200 rounded-3xl p-10 flex flex-col items-center justify-center min-h-[300px] text-center shadow-soft relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100/50 rounded-full blur-3xl -translate-y-10 translate-x-10" />
+              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 relative z-10">
+                <Phone className="w-8 h-8 text-blue-600" />
+              </div>
+              <p className="text-3xl font-black text-slate-900 tracking-tight mb-2 relative z-10">Try the Demo Call</p>
+              <p className="text-slate-500 font-medium mb-8 relative z-10">Call now to hear our AI receptionist in action.</p>
+              <a 
+                href="tel:+18604071305"
+                className="w-full py-5 bg-slate-900 text-white font-black text-lg rounded-2xl shadow-soft hover:bg-slate-800 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-3 relative z-10"
+              >
+                <Phone className="w-5 h-5" />
+                +1 (860) 407-1305
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
-          <p className="text-xl md:text-2xl text-zinc-500 text-center max-w-2xl mb-16 leading-relaxed font-medium">
-            The world's fastest way to automate your front-desk, qualify leads, and scale your business with zero-latency voice.
+      {/* ── Phone Mockup + Numbered Features ── */}
+      <section id="features" className="py-24 bg-white scroll-mt-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-20 reveal">
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-4">The Platform</p>
+            <h2 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter">One AI. Every Channel.</h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px_1fr] gap-12 items-center">
+            {/* Left Features */}
+            <div className="flex flex-col gap-16">
+              <div className="reveal-left" style={{ transitionDelay: '0ms' }}>
+                <p className="text-blue-600 text-sm font-black mb-3">01.</p>
+                <h3 className="text-2xl font-black text-slate-900 mb-3">Capture Every Missed Call</h3>
+                <p className="text-slate-500 font-medium leading-relaxed">
+                  Captures missed phone calls 24/7, even outside regular business hours. Never lose a lead to a competitor just because you were unavailable.
+                </p>
+              </div>
+              <div className="reveal-left" style={{ transitionDelay: '100ms' }}>
+                <p className="text-blue-600 text-sm font-black mb-3">03.</p>
+                <h3 className="text-2xl font-black text-slate-900 mb-3">Analyze Leads Automatically</h3>
+                <p className="text-slate-500 font-medium leading-relaxed">
+                  Sarah gathers caller intent, categorizes urgency levels, and delivers concise summaries directly to your CRM dashboard.
+                </p>
+              </div>
+            </div>
+
+            {/* Center — Phone Mockup */}
+            <div className="flex justify-center reveal">
+              <div className="relative w-[240px] h-[480px]">
+                {/* Phone frame */}
+                <div className="absolute inset-0 rounded-lg bg-slate-900 shadow-2xl shadow-slate-900/50" />
+                {/* Screen */}
+                <div className="absolute inset-[6px] rounded-xl overflow-hidden bg-gradient-to-br from-indigo-500 via-violet-500 to-purple-600 flex flex-col items-center pt-12 px-4">
+                  {/* Notch */}
+                  <div className="absolute top-[6px] left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-900 rounded-b-2xl" />
+                  {/* Business Icon */}
+                  <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center mb-3 mt-4">
+                    <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
+                      <span className="text-slate-900 font-black text-base">RA</span>
+                    </div>
+                  </div>
+                  <p className="text-white font-bold text-center text-sm leading-tight">ReceptionistAI</p>
+                  <p className="text-white/60 text-xs font-semibold mt-1 uppercase tracking-widest">CALLING</p>
+
+                  {/* Animated waveform */}
+                  <div className="flex items-center gap-[3px] mt-8 h-12">
+                    {[20, 32, 48, 56, 48, 64, 48, 56, 48, 32, 20].map((h, i) => (
+                      <div
+                        key={i}
+                        className="wave-bar bg-white/70 rounded-lg"
+                        style={{ height: `${h}px`, animationDelay: `${i * 0.1}s` }}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Bottom actions */}
+                  <div className="absolute bottom-12 w-full px-8">
+                    <div className="flex justify-around mb-6">
+                      <div className="flex flex-col items-center gap-1">
+                        <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-lg flex items-center justify-center border border-white/20">
+                          <Calendar className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="text-white/70 text-[9px] font-semibold">Schedule</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-1">
+                        <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-lg flex items-center justify-center border border-white/20">
+                          <MessageSquare className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="text-white/70 text-[9px] font-semibold">Message</span>
+                      </div>
+                    </div>
+                    {/* Swipe answer */}
+                    <div className="bg-white/20 backdrop-blur-sm rounded-lg py-3 px-6 flex items-center justify-center gap-2 border border-white/30">
+                      <div className="w-7 h-7 bg-white rounded-lg flex items-center justify-center">
+                        <Phone className="w-3 h-3 text-green-500" />
+                      </div>
+                      <span className="text-white text-xs font-bold">Swipe to answer</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Features */}
+            <div className="flex flex-col gap-16">
+              <div className="reveal-right" style={{ transitionDelay: '0ms' }}>
+                <p className="text-blue-600 text-sm font-black mb-3">02.</p>
+                <h3 className="text-2xl font-black text-slate-900 mb-3">Turn Calls into Bookings</h3>
+                <p className="text-slate-500 font-medium leading-relaxed">
+                  Sarah texts callers with your custom booking link, effectively converting every missed call into scheduled revenue.
+                </p>
+              </div>
+              <div className="reveal-right" style={{ transitionDelay: '100ms' }}>
+                <p className="text-blue-600 text-sm font-black mb-3">04.</p>
+                <h3 className="text-2xl font-black text-slate-900 mb-3">Upsell and Follow Up</h3>
+                <p className="text-slate-500 font-medium leading-relaxed">
+                  Automated SMS follow-ups re-engage past callers, offer promotions, and create new revenue opportunities passively.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Live Demo CTA ── */}
+      <section className="py-32 bg-white border-y border-slate-100">
+        <div className="max-w-3xl mx-auto px-6 text-center reveal">
+          <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter mb-10">Call our live demo</h2>
+          <a
+            href="tel:+18604071305"
+            className="inline-flex items-center gap-4 px-10 py-5 bg-slate-900 text-white font-black text-xl rounded-lg hover:bg-slate-800 transition-all hover:scale-105 active:scale-95"
+          >
+            <Phone className="w-5 h-5" />
+            +1 (860) 407-1305
+          </a>
+          <p className="text-slate-400 font-medium mt-8 text-base">
+            Experience firsthand how Sarah handles your incoming calls.
           </p>
+        </div>
+      </section>
 
-          {/* Core Demo Section */}
-          <div className="relative w-full max-w-3xl flex justify-center">
-            <div className="w-full bg-white border border-slate-200 rounded-[2rem] p-16 shadow-lg relative overflow-hidden group">
-              <div className="relative z-10 flex flex-col items-center gap-10">
-                <div className="flex flex-col items-center gap-3">
-                  <div className="h-1 w-16 bg-slate-100 rounded-full" />
-                  <h2 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400">Live Browser Demo</h2>
-                </div>
-                
-                <VapiButton visitorId={visitorId} />
-                
-                <div className="p-8 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col items-center gap-4 group-hover:bg-slate-100/50 transition-all duration-500">
-                  <div className="w-14 h-14 bg-deep-blue rounded-xl flex items-center justify-center shadow-xl shadow-deep-blue/10">
-                    <Phone className="w-7 h-7 text-white" />
-                  </div>
-                  <div className="text-center">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Live Phone Demo</p>
-                    <p className="text-2xl font-black text-deep-blue tracking-tight">
-                      (929) 376-0044
-                    </p>
-                  </div>
+      {/* ── Testimonials ── */}
+      <section className="py-24 bg-white/50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-px bg-slate-100 border border-slate-100 rounded-2xl overflow-hidden shadow-soft">
+            {[
+              {
+                quote: "It has ",
+                highlight: "completely transformed our front desk.",
+                suffix: " Our admin team finally has time to focus on what matters.",
+                author: "Tiffany Hurd",
+                role: "Operations Manager"
+              },
+              {
+                quote: "The phones used to ring all day long. Now we go hours without hearing the landline. It's a ",
+                highlight: "completely different work atmosphere.",
+                suffix: "",
+                author: "Todd Dusenberry",
+                role: "Owner"
+              },
+              {
+                quote: "6,500 clients handled around the clock. Our AI receptionist ",
+                highlight: "never sleeps.",
+                suffix: "",
+                author: "Samson Properties",
+                role: "Enterprise Client"
+              }
+            ].map((t, i) => (
+              <div key={i} className="reveal bg-white p-10" style={{ transitionDelay: `${i * 100}ms` }}>
+                <p className="text-base text-slate-600 leading-relaxed mb-8">
+                  &ldquo;{t.quote}<span className="text-blue-600 font-semibold">{t.highlight}</span>{t.suffix}&rdquo;
+                </p>
+                <div>
+                  <p className="font-bold text-slate-900 text-sm">{t.author}</p>
+                  <p className="text-xs text-slate-400 font-medium">{t.role}</p>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Live Lead Dashboard - The "WOW" Business Proof */}
-        <section className="max-w-5xl mx-auto px-6 mb-32">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-deep-blue/5 border border-deep-blue/10 mb-6">
-                <Activity className="w-3 h-3 text-deep-blue" />
-                <span className="text-[10px] font-black text-deep-blue uppercase tracking-[0.2em]">Real-Time Pulse</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-deep-blue">
-                Live <span className="text-zinc-400 font-medium">Performance</span>
-              </h2>
-            </div>
-            <p className="max-w-[280px] text-zinc-500 text-[13px] font-medium leading-relaxed md:text-right">
-              Sarah handles every incoming request. Watch as she qualifies and books patients in real-time.
+      {/* ── Bento Grid: "The AI Workforce that Never Sleeps" ── */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16 reveal">
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-4">The AI Workforce</p>
+            <h2 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter mb-4">That Never Sleeps</h2>
+            <p className="text-slate-500 text-lg font-medium max-w-xl mx-auto">
+              Capture tasks and appointments 24/7, even outside business hours. Set it up in minutes, keep your existing number.
             </p>
           </div>
 
-          <div className="bg-white rounded-[2rem] border border-slate-200 shadow-xl overflow-hidden">
-            {/* Dashboard Header */}
-            <div className="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="flex gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Card 1: AI Chat */}
+            <div className="reveal-left bg-white border border-slate-200 rounded-2xl p-8 min-h-[360px] flex flex-col justify-between overflow-hidden shadow-soft">
+              <div>
+                {/* Chat bubble */}
+                <div className="bg-slate-50 border border-slate-100 rounded-lg rounded-tl-sm px-5 py-4 max-w-[260px] mb-4">
+                  <p className="text-slate-900 font-semibold text-sm leading-relaxed">Hi there! I&apos;m Sarah, your AI receptionist. How can I help today?</p>
                 </div>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Sarah CRM v1.0</span>
+                {/* Waveform */}
+                <div className="flex items-end gap-[3px] pl-2 h-10 mt-4">
+                  {[12, 20, 32, 24, 40, 32, 24, 40, 32, 20, 28, 16, 24, 32, 20].map((h, i) => (
+                    <div
+                      key={i}
+                      className="wave-bar bg-slate-300 rounded-sm"
+                      style={{ height: `${h}px`, animationDelay: `${i * 0.08}s` }}
+                    />
+                  ))}
+                </div>
               </div>
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-green-50 rounded-lg border border-green-200">
-                <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                <span className="text-[9px] font-black text-green-700 uppercase tracking-widest">Systems Active</span>
+              <div>
+                <h3 className="text-xl font-black text-slate-900 mb-2">AI Receptionist Tailored to Your Business</h3>
+                <p className="text-slate-500 font-medium text-sm">Fully trained on your business information and services to answer complex questions from callers.</p>
               </div>
             </div>
 
-            {/* Dashboard Content */}
-            <div className="divide-y divide-zinc-100">
-              {leads.length > 0 ? (
-                leads.map((item, i) => (
-                  <div key={i} className="group p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:bg-white/30 transition-all duration-500 animate-fade-in-up" style={{ animationDelay: `${i * 100}ms` }}>
-                    <div className="flex items-center gap-5">
-                      <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg rotate-3 group-hover:rotate-0 transition-transform duration-500", item.color || "bg-deep-blue")}>
-                        <User className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-bold text-deep-blue">{item.name}</h4>
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">{item.task}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between sm:justify-end gap-10">
-                      <div className="flex flex-col items-end">
-                        <div className="flex items-center gap-2 text-zinc-400">
-                          <Clock className="w-3 h-3" />
-                          <span className="text-[10px] font-bold uppercase tracking-widest">{item.time}</span>
-                        </div>
-                      </div>
-                      
-                      <div className={cn(
-                        "px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-sm transform group-hover:scale-105 transition-all duration-500",
-                        item.status === "Booked" ? "bg-green-600 text-white shadow-sm" : "bg-slate-100 text-slate-500"
-                      )}>
-                        {item.status}
-                      </div>
-                    </div>
+            {/* Card 2: Sends Texts */}
+            <div className="reveal-right bg-slate-900 rounded-2xl p-8 min-h-[360px] flex flex-col justify-between overflow-hidden shadow-soft">
+              <div>
+                {/* Play + Waveform */}
+                <div className="flex items-center gap-3 bg-white/10 border border-white/10 rounded-lg px-5 py-3 w-fit mb-4">
+                  <div className="w-8 h-8 bg-white rounded-md flex items-center justify-center flex-shrink-0">
+                    <div className="w-0 h-0 border-t-[5px] border-b-[5px] border-l-[8px] border-t-transparent border-b-transparent border-l-slate-900 ml-0.5" />
                   </div>
-                ))
-              ) : (
-                <div className="p-20 text-center">
-                  <p className="text-zinc-400 text-sm font-medium">Waiting for incoming leads...</p>
+                  <div className="flex items-end gap-[2px] h-6">
+                    {[8, 14, 20, 16, 24, 20, 14, 20, 16, 12].map((h, i) => (
+                      <div
+                        key={i}
+                        className="wave-bar bg-white/60 rounded-sm"
+                        style={{ height: `${h}px`, animationDelay: `${i * 0.1}s` }}
+                      />
+                    ))}
+                  </div>
                 </div>
-              )}
+                {/* SMS bubble */}
+                <div className="bg-white/10 border border-white/10 rounded-lg rounded-tl-sm px-5 py-4 max-w-[280px]">
+                  <p className="text-white font-semibold text-sm leading-relaxed">Any time to set up an appointment — when would be a good time?</p>
+                </div>
+              </div>
+              <div>
+                <h3 className="text-xl font-black text-white mb-2">Sends Texts and Schedules Appointments</h3>
+                <p className="text-white/50 font-medium text-sm">Sarah automatically texts callers to reduce friction and turn every lead into a booked appointment.</p>
+              </div>
             </div>
 
-            {/* Dashboard Footer */}
-            <div className="px-8 py-6 bg-zinc-50/50 flex items-center justify-center border-t border-zinc-100">
-              <button className="text-[10px] font-black text-zinc-400 hover:text-deep-blue transition-colors uppercase tracking-[0.4em]">
-                Explore All Logs →
+            {/* Card 3: Build */}
+            <div className="reveal-left bg-slate-50 border border-slate-200 rounded-2xl p-8 min-h-[300px] flex flex-col justify-between items-center overflow-hidden shadow-soft">
+              <div className="flex-1 flex items-center justify-center w-full">
+                <div className="w-20 h-20 bg-slate-900 rounded-lg flex items-center justify-center hover:scale-105 transition-transform">
+                  <span className="text-white font-black text-2xl tracking-tighter">RA</span>
+                </div>
+              </div>
+              <div className="text-center">
+                <h3 className="text-xl font-black text-slate-900 mb-2">Build and Train in Minutes</h3>
+                <p className="text-slate-500 font-medium text-sm">Create a fully trained AI receptionist from scratch in minutes. No code required.</p>
+              </div>
+            </div>
+
+            {/* Card 4: Analytics Dashboard */}
+            <div ref={statsRef} className="reveal-right bg-white border border-slate-100 rounded-2xl p-8 min-h-[300px] flex flex-col justify-between overflow-hidden shadow-soft">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 bg-blue-100 rounded-xl flex items-center justify-center">
+                    <BarChart2 className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="font-black text-slate-900 text-sm">Sarah</p>
+                    <p className="text-slate-400 text-xs">AI Receptionist</p>
+                  </div>
+                </div>
+                <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-lg">Live</span>
+              </div>
+
+              {/* Stats Row */}
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <div>
+                  <p className="text-2xl font-black text-slate-900">{count1}<span className="text-slate-300 text-sm font-bold ml-1">+12</span></p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Calls Handled</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-black text-slate-900">{count2}<span className="text-slate-300 text-sm font-bold ml-1">+28</span></p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Texts Sent</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-black text-slate-900">${(count3 / 1000).toFixed(1)}k</p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Revenue</p>
+                </div>
+              </div>
+
+              {/* Bar Chart */}
+              <div>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Leads Conversion</p>
+                <div className="flex items-end gap-2 h-16">
+                  {[40, 60, 45, 80, 65, 90, 75].map((h, i) => (
+                    <div key={i} className="flex-1 rounded-t-md bg-blue-100 relative overflow-hidden group">
+                      <div
+                        className="absolute bottom-0 left-0 right-0 bg-blue-500 rounded-t-md transition-all duration-1000 ease-out"
+                        style={{ height: `${h}%`, transitionDelay: `${i * 100}ms` }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <h3 className="text-xl font-black text-slate-900 mb-1">Advanced Analytics</h3>
+                <p className="text-slate-500 font-medium text-sm">Track conversion rates, bookings and revenue generated by your AI receptionist in real time.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CRM Integration (Lavender card style) ── */}
+      <section className="py-24 bg-white">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="text-center mb-12 reveal">
+            <h2 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter mb-6">
+              Seamless Integration<br />with Leading CRMs
+            </h2>
+            <p className="text-slate-500 text-lg font-medium max-w-lg mx-auto mb-10">
+              Use ReceptionistAI&apos;s built-in CRM, or plug into an existing platform. Deep API integrations work out of the box.
+            </p>
+            <div className="flex items-center justify-center gap-4">
+              <a href="#book" className="px-8 py-4 bg-blue-600 text-white font-bold rounded-lg text-sm hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/25 hover:scale-[1.02]">
+                Build My Receptionist
+              </a>
+              <button onClick={() => setIsContactOpen(true)} className="px-8 py-4 bg-white border border-slate-200 text-slate-900 font-bold rounded-lg text-sm hover:bg-slate-50 transition-all">
+                Contact Sales
               </button>
             </div>
           </div>
-        </section>
 
-        {/* Social Proof Logos */}
-        <section className="max-w-6xl mx-auto px-6 mb-32">
-          <p className="text-center text-[10px] font-black uppercase tracking-[0.4em] text-slate-300 mb-12">Trusted by builders at</p>
-          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 grayscale opacity-20 hover:opacity-50 transition-opacity">
-            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-slate-400"><Building2 className="w-8 h-8"/> HUB<span>SPOT</span></div>
-            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-slate-400"><Globe className="w-8 h-8"/> ZAP<span>IER</span></div>
-            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-slate-400"><Database className="w-8 h-8"/> MONGO<span>DB</span></div>
-            <div className="flex items-center gap-2 font-black text-2xl tracking-tighter text-slate-400"><Zap className="w-8 h-8"/> STRIPE</div>
+          {/* Integration card */}
+          <div className="reveal bg-slate-50 border border-slate-200 rounded-2xl p-8 overflow-hidden shadow-soft">
+            <div className="bg-white rounded-2xl p-12 border border-slate-100 flex flex-col items-center justify-center min-h-[280px] gap-8">
+              <div className="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center">
+                <span className="text-white font-black text-2xl">RA</span>
+              </div>
+              {/* Integration logos row */}
+              <div className="flex items-center gap-4 flex-wrap justify-center">
+                {['Salesforce', 'HubSpot', 'GoHighLevel', 'Zoho', 'Pipedrive'].map((crm, i) => (
+                  <div key={i} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg">
+                    <span className="text-xs font-black text-slate-600">{crm}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center gap-4 w-full">
+                <div className="h-px bg-slate-200 flex-1" />
+                <span className="text-xs font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">+ 50 more integrations</span>
+                <div className="h-px bg-slate-200 flex-1" />
+              </div>
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ROI / Stats Section */}
-        <section className="max-w-6xl mx-auto px-6 mb-40">
+      {/* ── ROI Stats ── */}
+      <section className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { stat: "$840K+", label: "New Revenue Generated", icon: <TrendingUp className="w-6 h-6" />, color: "bg-green-600" },
-              { stat: "3,000%", label: "Average ROI", icon: <Gauge className="w-6 h-6" />, color: "bg-slate-900" },
-              { stat: "100%", label: "Call Answer Rate", icon: <CheckCircle2 className="w-6 h-6" />, color: "bg-accent-blue" },
+              { stat: "$840K+", label: "Revenue Generated", sub: "Across all clients" },
+              { stat: "3,000%", label: "Average ROI", sub: "Within first 90 days" },
+              { stat: "100%", label: "Answering Rate", sub: "Every call, every time" },
             ].map((item, i) => (
-              <div key={i} className="bg-white border border-slate-200 p-10 rounded-3xl group hover:border-slate-300 transition-all duration-300">
-                <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center text-white mb-8", item.color)}>
-                  {item.icon}
-                </div>
-                <h3 className="text-5xl font-black tracking-tighter text-deep-blue mb-4 transition-transform origin-left">{item.stat}</h3>
-                <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{item.label}</p>
+              <div key={i} className="reveal text-center p-12 bg-white rounded-xl border border-slate-100 shadow-sm" style={{ transitionDelay: `${i * 100}ms` }}>
+                <h3 className="text-5xl md:text-6xl font-black text-slate-900 mb-3">{item.stat}</h3>
+                <p className="text-base font-black text-slate-900 uppercase tracking-widest mb-1">{item.label}</p>
+                <p className="text-sm text-slate-400 font-medium">{item.sub}</p>
               </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Structured Process Section */}
-        <section id="experience" className="max-w-6xl mx-auto px-6 mb-40 scroll-mt-32">
-          <div className="text-center mb-24">
-            <h2 className="text-5xl md:text-6xl font-black tracking-tight text-deep-blue mb-6">
-              Three steps to <span className="text-slate-900 font-black">Freedom.</span>
-            </h2>
-            <p className="text-slate-500 font-medium max-w-xl mx-auto">
-              We've refined the onboarding process to be as fast as a website launch.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-16 relative">
-            {/* Connecting Line (Desktop) */}
-            <div className="hidden lg:block absolute top-24 left-[10%] right-[10%] h-px bg-slate-100 z-0" />
-            
-            {[
-              { step: "01", title: "Train & Deploy", desc: "Upload your business info and Sarah builds her persona in 60 seconds." },
-              { step: "02", title: "Route Traffic", desc: "Connect your existing phone line or get a new local number instantly." },
-              { step: "03", title: "Automate Growth", desc: "Watch Sarah book appointments and log leads directly into your CRM." },
-            ].map((item, i) => (
-              <div key={i} className="relative z-10 group">
-                <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center text-2xl font-black text-deep-blue mb-10 group-hover:bg-deep-blue group-hover:text-white transition-all duration-300">
-                  {item.step}
-                </div>
-                <h3 className="text-2xl font-black text-deep-blue mb-4">{item.title}</h3>
-                <p className="text-slate-500 leading-relaxed font-medium">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Booking Section */}
-        <section id="book" className="max-w-6xl mx-auto px-6 mb-32 scroll-mt-24">
-          <div className="bg-white border border-slate-200 rounded-[2rem] p-12 md:p-20 shadow-xl relative overflow-hidden group">
-            <div className="grid lg:grid-cols-2 gap-20 items-center relative z-10">
-              <div>
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-deep-blue/5 text-[10px] font-black uppercase tracking-widest text-deep-blue mb-8">
-                  <CalendarCheck className="w-3 h-3" /> Booking Portal
-                </div>
-                <h2 className="text-4xl md:text-5xl font-black tracking-tight text-deep-blue mb-6">
-                  Schedule <span className="text-zinc-400 font-medium">Your Strategy Call.</span>
-                </h2>
-                <p className="text-lg text-zinc-500 leading-relaxed mb-10 max-w-md">
-                  Ready to deploy Sarah to your business? Pick a time that works for you and let's build your AI future together.
-                </p>
-                
-                <div className="space-y-6">
-                  {[
-                    "15-Minute Technical Blueprint",
-                    "Custom Persona Workshop",
-                    "Live Deployment Support"
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-4 text-sm font-bold text-deep-blue">
-                      <div className="w-6 h-6 rounded-lg bg-green-500/10 flex items-center justify-center text-green-600">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                      </div>
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-white rounded-3xl p-8 shadow-xl border border-zinc-100 flex flex-col gap-8">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-black uppercase tracking-widest text-zinc-400">Select Date</span>
-                  <div className="flex gap-2">
-                    <div className="w-8 h-8 rounded-lg border border-zinc-100 flex items-center justify-center text-zinc-400 cursor-not-allowed">←</div>
-                    <div className="w-8 h-8 rounded-lg border border-zinc-100 flex items-center justify-center text-zinc-400 cursor-not-allowed">→</div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-7 gap-2 text-center">
-                  {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(d => (
-                    <span key={d} className="text-[10px] font-black text-zinc-300">{d}</span>
-                  ))}
-                  {Array.from({ length: 31 }).map((_, i) => (
-                    <div 
-                      key={i} 
-                      className={cn(
-                        "aspect-square flex items-center justify-center text-xs font-bold rounded-xl transition-all",
-                        i + 1 === 15 ? "bg-deep-blue text-white shadow-lg" : "text-zinc-400 hover:bg-zinc-50 cursor-pointer"
-                      )}
-                    >
-                      {i + 1}
-                    </div>
-                  ))}
-                </div>
-
-                <button className="w-full py-4 bg-deep-blue text-white rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] shadow-lg shadow-deep-blue/20 hover:scale-[1.02] active:scale-95 transition-all">
-                  Confirm Booking
-                </button>
-                
-                <p className="text-[9px] text-center font-bold text-zinc-300 uppercase tracking-widest">
-                  Powered by ReceptionistAI Scheduler
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Final CTA - For the Sales Pitch */}
-        <section className="max-w-5xl mx-auto px-6 mb-32">
-          <div className="relative rounded-[2rem] overflow-hidden bg-slate-950 p-12 md:p-24 text-center">
-            {/* Minimal pattern */}
-            <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '16px 16px' }} />
-            
-            <div className="relative z-10 flex flex-col items-center">
-              <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-8 leading-[1.1]">
-                Stop losing leads <br />
-                <span className="opacity-40">to voicemail.</span>
+      {/* ── Booking Section ── */}
+      <section id="book" className="py-24 bg-white scroll-mt-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-12 md:p-24 grid lg:grid-cols-2 gap-20 items-start">
+            <div className="reveal-left">
+              <p className="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-6">Strategy Call</p>
+              <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-8 leading-tight tracking-tighter">
+                Schedule your<br />
+                <span className="text-blue-600">strategy call.</span>
               </h2>
-              <p className="text-white/70 text-lg md:text-xl font-medium max-w-xl mb-12">
-                Join the elite group of businesses using Sarah to dominate their local market.
+              <p className="text-lg text-slate-500 leading-relaxed mb-10 max-w-md font-medium">
+                Ready to deploy your AI workforce? Book a time to build your technical blueprint with our team.
               </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a href="#book" className="px-10 py-5 bg-white text-deep-blue rounded-2xl font-black uppercase text-xs tracking-widest shadow-2xl shadow-white/10 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
-                  Book Your Demo <ArrowRight className="w-4 h-4" />
-                </a>
+              <div className="space-y-6">
+                {["15-Minute Technical Blueprint", "Custom Persona Workshop", "Live Deployment Support"].map((item, i) => (
+                  <div key={i} className="flex items-center gap-4 text-sm font-bold text-slate-900">
+                    <div className="w-6 h-6 rounded-lg bg-green-100 flex items-center justify-center">
+                      <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    </div>
+                    {item}
+                  </div>
+                ))}
               </div>
+            </div>
+
+            <div className="reveal-right bg-white rounded-xl p-8 shadow-xl border border-zinc-100 flex flex-col gap-8">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-black uppercase tracking-widest text-zinc-400">Select Date</span>
+                <div className="flex gap-2">
+                  <div className="w-8 h-8 rounded-lg border border-zinc-100 flex items-center justify-center text-zinc-400">←</div>
+                  <div className="w-8 h-8 rounded-lg border border-zinc-100 flex items-center justify-center text-zinc-400">→</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-7 gap-2 text-center">
+                {['S','M','T','W','T','F','S'].map(d => (
+                  <span key={d} className="text-[10px] font-black text-zinc-300">{d}</span>
+                ))}
+                {Array.from({ length: 31 }).map((_, i) => (
+                  <div key={i} className={cn(
+                    "aspect-square flex items-center justify-center text-xs font-bold rounded-xl cursor-pointer transition-all",
+                    i + 1 === 15 ? "bg-slate-900 text-white shadow-lg" : "text-zinc-400 hover:bg-slate-50"
+                  )}>
+                    {i + 1}
+                  </div>
+                ))}
+              </div>
+              <button className="w-full py-4 bg-slate-900 text-white rounded-lg font-black uppercase text-[10px] tracking-[0.2em] hover:bg-slate-800 transition-all active:scale-95">
+                Confirm Booking
+              </button>
+              <p className="text-[9px] text-center font-bold text-zinc-300 uppercase tracking-widest">
+                Powered by ReceptionistAI Scheduler
+              </p>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Feature Grid with refined cards */}
-        <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            { 
-              title: "Neural Engine", 
-              label: "Human-Like Voice", 
-              desc: "98.7% identical to human speech patterns with natural intonations and pauses." 
-            },
-            { 
-              title: "Instant Sync", 
-              label: "Calendar Integration", 
-              desc: "Real-time read/write access to your scheduling software to prevent double bookings." 
-            },
-            { 
-              title: "Smart Triage", 
-              label: "Lead Qualification", 
-              desc: "Automatically identifies urgent cases and prioritizes them in your notification center." 
-            },
-          ].map((feature, i) => (
-            <div key={i} className="bg-white border border-slate-200 group p-10 rounded-2xl transition-all duration-300 hover:border-slate-300">
-              <div className="w-12 h-12 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center mb-8 group-hover:bg-deep-blue group-hover:text-white transition-colors duration-300">
-                <div className="w-6 h-6 border-2 border-current rounded-lg" />
-              </div>
-              <h3 className="text-2xl font-bold text-deep-blue mb-2">{feature.title}</h3>
-              <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-6">{feature.label}</div>
-              <p className="text-slate-500 leading-relaxed font-medium">{feature.desc}</p>
-            </div>
-          ))}
-        </section>
-      </div>
+      {/* ── Final CTA ── */}
+      <section className="py-32 bg-slate-950">
+        <div className="max-w-4xl mx-auto px-6 text-center reveal">
+          <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-6">
+            Stop losing leads<br />
+            <span className="text-white/30">to voicemail.</span>
+          </h2>
+          <p className="text-white/60 text-xl font-medium mb-12">
+            Join elite businesses using ReceptionistAI to capture every opportunity, automatically.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="#book" className="px-10 py-5 bg-white text-slate-900 font-black rounded-lg text-sm hover:bg-slate-100 transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
+              Book Your Demo <ArrowRight className="w-4 h-4" />
+            </a>
+            <a href="tel:+18604071305" className="px-10 py-5 border border-white/20 text-white font-black rounded-lg text-sm hover:bg-white/10 transition-all flex items-center gap-2">
+              <Phone className="w-4 h-4" /> Call Now
+            </a>
+          </div>
+        </div>
+      </section>
 
-      {/* Footer */}
-      <footer id="contact" className="py-20 border-t border-soft-gray relative overflow-hidden scroll-mt-20">
+      {/* ── Footer ── */}
+      <footer id="contact" className="py-20 border-t border-slate-100 bg-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col items-center gap-10">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 bg-deep-blue rounded-2xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center">
               <span className="text-white font-black text-xl tracking-tighter">RA</span>
             </div>
-            <span className="text-2xl font-black tracking-tight text-deep-blue">ReceptionistAI</span>
+            <span className="text-2xl font-black tracking-tight text-slate-900">ReceptionistAI</span>
           </div>
-          
-          <div className="flex flex-col items-center gap-4 text-center">
-            <h3 className="text-xs font-black uppercase tracking-[0.4em] text-zinc-300 mb-2">Automated Front-Desk</h3>
-            <div className="flex items-center gap-4">
-              <Link href="#book" className="px-8 py-4 bg-deep-blue text-white rounded-2xl font-black uppercase text-[10px] tracking-widest hover:scale-105 transition-all">
-                Schedule Your Demo
-              </Link>
-              <button 
-                onClick={() => setIsContactOpen(true)}
-                className="px-8 py-4 bg-white border border-zinc-100 text-deep-blue rounded-2xl font-black uppercase text-[10px] tracking-widest hover:scale-105 transition-all shadow-sm"
-              >
-                Inquire Now
-              </button>
-            </div>
+          <div className="flex items-center gap-4">
+            <Link href="#book" className="px-8 py-4 bg-slate-900 text-white rounded-lg font-black uppercase text-[10px] tracking-widest hover:bg-slate-800 transition-all">
+              Schedule Your Demo
+            </Link>
+            <button
+              onClick={() => setIsContactOpen(true)}
+              className="px-8 py-4 bg-white border border-slate-200 text-slate-900 rounded-lg font-black uppercase text-[10px] tracking-widest hover:bg-slate-50 transition-all"
+            >
+              Inquire Now
+            </button>
           </div>
-          <div className="flex gap-10 text-[10px] font-bold text-zinc-300 uppercase tracking-[0.2em] mt-8">
-            <Link href="/privacy" className="hover:text-deep-blue transition-colors">Privacy</Link>
-            <Link href="/security" className="hover:text-deep-blue transition-colors">Security</Link>
-            <Link href="/terms" className="hover:text-deep-blue transition-colors">Terms</Link>
+          <div className="flex gap-10 text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">
+            <Link href="/privacy" className="hover:text-slate-900 transition-colors">Privacy</Link>
+            <Link href="/security" className="hover:text-slate-900 transition-colors">Security</Link>
+            <Link href="/terms" className="hover:text-slate-900 transition-colors">Terms</Link>
           </div>
-          
           <p className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">
-            © 2026 ReceptionistAI | Built for High Performance
+            © 2026 ReceptionistAI — Automated Front Desk
           </p>
         </div>
       </footer>
 
-      {/* Contact Modal */}
+      {/* ── Contact Modal ── */}
       {isContactOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 animate-fade-in shadow-2xl">
-          <div 
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 animate-fade-in">
+          <div
             className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
             onClick={() => !isSubmitting && setIsContactOpen(false)}
           />
-          
-          <div className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-slate-200 p-10 md:p-12 animate-fade-in-up">
-            <button 
+          <div className="relative w-full max-w-xl bg-white rounded-xl shadow-2xl border border-slate-200 p-10 md:p-12 animate-fade-in-up">
+            <button
               onClick={() => setIsContactOpen(false)}
-              className="absolute top-8 right-8 p-2 text-zinc-400 hover:text-deep-blue transition-colors"
+              className="absolute top-8 right-8 p-2 text-zinc-400 hover:text-slate-900 transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
 
             {isSubmitted ? (
-              <div className="py-12 flex flex-col items-center text-center gap-6 animate-fade-in">
-                <div className="w-20 h-20 bg-green-600 rounded-full flex items-center justify-center text-white shadow-lg">
+              <div className="py-12 flex flex-col items-center text-center gap-6">
+                <div className="w-20 h-20 bg-green-600 rounded-lg flex items-center justify-center text-white">
                   <CheckCircle2 className="w-10 h-10" />
                 </div>
                 <div>
-                  <h3 className="text-3xl font-black text-deep-blue mb-2">Message Sent!</h3>
-                  <p className="text-zinc-500 font-medium">Sarah will notify us immediately. Talk soon!</p>
+                  <h3 className="text-3xl font-black text-slate-900 mb-2">Message Sent!</h3>
+                  <p className="text-slate-500 font-medium">Sarah will notify us immediately. Talk soon!</p>
                 </div>
               </div>
             ) : (
               <>
                 <div className="mb-10 text-center">
-                  <h3 className="text-3xl font-black text-deep-blue mb-2">Send a Message</h3>
-                  <p className="text-zinc-500 font-medium">How can Sarah help your business?</p>
+                  <h3 className="text-3xl font-black text-slate-900 mb-2">Send a Message</h3>
+                  <p className="text-slate-500 font-medium">How can Sarah help your business?</p>
                 </div>
-
                 <form onSubmit={handleContactSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Full Name</label>
-                    <input 
-                      required
-                      type="text" 
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Enter your name"
-                      className="w-full px-6 py-4 bg-zinc-50 border border-zinc-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-deep-blue/5 focus:border-deep-blue transition-all font-medium text-sm"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Email Address</label>
-                    <input 
-                      required
-                      type="email" 
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="hello@example.com"
-                      className="w-full px-6 py-4 bg-zinc-50 border border-zinc-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-deep-blue/5 focus:border-deep-blue transition-all font-medium text-sm"
-                    />
-                  </div>
-
+                  {[
+                    { label: 'Full Name', key: 'name', type: 'text', placeholder: 'Enter your name' },
+                    { label: 'Email Address', key: 'email', type: 'email', placeholder: 'hello@example.com' },
+                  ].map(f => (
+                    <div key={f.key} className="space-y-2">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">{f.label}</label>
+                      <input
+                        required
+                        type={f.type}
+                        value={formData[f.key as keyof typeof formData]}
+                        onChange={e => setFormData({ ...formData, [f.key]: e.target.value })}
+                        placeholder={f.placeholder}
+                        className="w-full px-6 py-4 bg-zinc-50 border border-zinc-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600 transition-all font-medium text-sm"
+                      />
+                    </div>
+                  ))}
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Your Message</label>
-                    <textarea 
+                    <textarea
                       required
                       value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      onChange={e => setFormData({ ...formData, message: e.target.value })}
                       rows={4}
-                      placeholder="Tell us about your project..."
-                      className="w-full px-6 py-4 bg-zinc-50 border border-zinc-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-deep-blue/5 focus:border-deep-blue transition-all font-medium resize-none text-sm"
+                      placeholder="Tell us about your business..."
+                      className="w-full px-6 py-4 bg-zinc-50 border border-zinc-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600 transition-all font-medium resize-none text-sm"
                     />
                   </div>
-
-                  {formError && (
-                    <p className="text-red-500 text-xs font-bold text-center">{formError}</p>
-                  )}
-
-                  <button 
+                  {formError && <p className="text-red-500 text-xs font-bold text-center">{formError}</p>}
+                  <button
                     disabled={isSubmitting}
-                    className="w-full py-5 bg-deep-blue text-white rounded-xl font-bold uppercase text-[10px] tracking-[0.2em] shadow-lg shadow-deep-blue/20 hover:bg-slate-900 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                    className="w-full py-5 bg-slate-900 text-white rounded-xl font-bold uppercase text-[10px] tracking-[0.2em] hover:bg-slate-800 active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-3"
                   >
                     {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-4 h-4" />}
-                    {isSubmitting ? "Sending..." : "Send Message"}
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
                   </button>
                 </form>
               </>

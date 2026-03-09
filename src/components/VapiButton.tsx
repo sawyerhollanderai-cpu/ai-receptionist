@@ -119,7 +119,7 @@ Strict Rules:
   return (
     <div className="flex flex-col items-center gap-12">
       {error && (
-        <div className="glass px-6 py-3 rounded-2xl border-red-500/20 shadow-xl animate-fade-in-up">
+        <div className="glass px-6 py-3 rounded-lg border-red-500/20 shadow-xl animate-fade-in-up">
           <p className="text-red-600 text-[11px] font-bold uppercase tracking-widest">{error}</p>
         </div>
       )}
@@ -127,14 +127,14 @@ Strict Rules:
       <div className="relative group flex items-center justify-center">
         {/* Pulsing state for active session */}
         {isSessionActive && (
-          <div className="absolute inset-[-10px] rounded-full border border-accent-blue/20 animate-pulse" />
+          <div className="absolute inset-[-10px] rounded-lg border border-accent-blue/20 animate-pulse" />
         )}
 
         <button
           onClick={toggleCall}
           disabled={isConnecting}
           className={cn(
-            "relative z-20 w-32 h-32 rounded-full transition-all duration-300 ease-out flex items-center justify-center overflow-hidden border border-slate-200",
+            "relative z-20 w-32 h-32 rounded-lg transition-all duration-300 ease-out flex items-center justify-center overflow-hidden border border-slate-200",
             isSessionActive 
               ? "bg-accent-blue shadow-lg border-accent-blue" 
               : "bg-white hover:bg-slate-50 shadow-sm hover:border-slate-300",
@@ -147,7 +147,7 @@ Strict Rules:
               <Loader2 className={cn("w-8 h-8 animate-spin", isSessionActive ? "text-white" : "text-deep-blue")} />
             ) : isSessionActive ? (
               <div className="flex flex-col items-center">
-                <div className="w-8 h-1 bg-white/40 rounded-full mb-3 animate-pulse" />
+                <div className="w-8 h-1 bg-white/40 rounded-lg mb-3 animate-pulse" />
                 <span className="text-white text-[10px] font-black uppercase tracking-[0.2em]">Live</span>
               </div>
             ) : (
@@ -155,7 +155,7 @@ Strict Rules:
                 <Mic className="w-10 h-10 text-deep-blue transition-colors group-hover:text-accent-blue" />
                 {/* Subtle ping to draw eye */}
                 {!isSessionActive && (
-                  <div className="absolute top-0 right-0 w-3 h-3 bg-accent-blue rounded-full border-2 border-white animate-ping" />
+                  <div className="absolute top-0 right-0 w-3 h-3 bg-accent-blue rounded-lg border-2 border-white animate-ping" />
                 )}
               </div>
             )}
@@ -175,9 +175,9 @@ Strict Rules:
       {/* Visual Status Indicator */}
       <div className="flex flex-col items-center gap-2 mt-4">
         <div className="flex items-center gap-1.5">
-          <div className={cn("w-1.5 h-1.5 rounded-full bg-zinc-300", isSessionActive && "bg-accent-blue scale-150 transition-all")} />
-          <div className={cn("w-1.5 h-1.5 rounded-full bg-zinc-300", isSessionActive && "bg-accent-blue/60 scale-125 transition-all")} />
-          <div className={cn("w-1.5 h-1.5 rounded-full bg-zinc-300", isSessionActive && "bg-accent-blue/30 transition-all")} />
+          <div className={cn("w-1.5 h-1.5 rounded-lg bg-zinc-300", isSessionActive && "bg-accent-blue scale-150 transition-all")} />
+          <div className={cn("w-1.5 h-1.5 rounded-lg bg-zinc-300", isSessionActive && "bg-accent-blue/60 scale-125 transition-all")} />
+          <div className={cn("w-1.5 h-1.5 rounded-lg bg-zinc-300", isSessionActive && "bg-accent-blue/30 transition-all")} />
         </div>
         <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.2em]">
           {isSessionActive ? "Sarah is Listening" : isConnecting ? "Connecting to Sarah" : "Terminal Offline"}
