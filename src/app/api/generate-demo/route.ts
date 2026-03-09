@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const VAPI_PRIVATE_KEY = 'REDACTED_USE_ENV_VAR';
+const VAPI_PRIVATE_KEY = process.env.VAPI_PRIVATE_KEY || '';
 
 export async function POST(req: Request) {
   try {
