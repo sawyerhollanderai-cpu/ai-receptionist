@@ -4,6 +4,7 @@ import { cn } from '@/components/VapiButton';
 import { CheckCircle2, Phone, ArrowRight, X, Send, Loader2, BarChart2, Users, Zap, MessageSquare, Calendar } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
+import { InlineWidget } from 'react-calendly';
 
 export default function Home() {
   const [visitorId, setVisitorId] = useState<string | null>(null);
@@ -110,12 +111,6 @@ export default function Home() {
             <a href="#features" className="text-[13px] font-semibold text-slate-500 hover:text-slate-900 transition-colors">Features</a>
             <a href="#demo" className="text-[13px] font-semibold text-slate-500 hover:text-slate-900 transition-colors">Live Demo</a>
             <a href="#book" className="text-[13px] font-semibold text-slate-500 hover:text-slate-900 transition-colors">Book a Call</a>
-            <button
-              onClick={() => setIsContactOpen(true)}
-              className="px-5 py-2.5 bg-blue-600 text-white text-[13px] font-bold rounded-xl hover:bg-blue-700 transition-all shadow-md shadow-blue-600/20 active:scale-95"
-            >
-              Contact Sales
-            </button>
           </div>
         </div>
       </nav>
@@ -144,15 +139,8 @@ export default function Home() {
             </p>
             <div className="flex flex-wrap gap-4">
               <a
-                href="tel:+18604071305"
-                className="flex items-center gap-3 px-8 py-4 bg-slate-900 text-white font-bold rounded-2xl text-sm hover:bg-slate-800 transition-all shadow-soft hover:-translate-y-0.5"
-              >
-                <Phone className="w-4 h-4" />
-                Call Live Demo
-              </a>
-              <a
                 href="#book"
-                className="flex items-center gap-3 px-8 py-4 bg-white border border-slate-200 text-slate-900 font-bold rounded-2xl text-sm hover:bg-slate-50 transition-all shadow-sm hover:-translate-y-0.5"
+                className="flex items-center gap-3 px-8 py-4 bg-slate-900 text-white font-bold rounded-2xl text-sm hover:bg-slate-800 transition-all shadow-soft hover:-translate-y-0.5"
               >
                 Book a Strategy Call <ArrowRight className="w-4 h-4" />
               </a>
@@ -526,25 +514,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── ROI Stats ── */}
-      <section className="py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { stat: "$840K+", label: "Revenue Generated", sub: "Across all clients" },
-              { stat: "3,000%", label: "Average ROI", sub: "Within first 90 days" },
-              { stat: "100%", label: "Answering Rate", sub: "Every call, every time" },
-            ].map((item, i) => (
-              <div key={i} className="reveal text-center p-12 bg-white rounded-xl border border-slate-100 shadow-sm" style={{ transitionDelay: `${i * 100}ms` }}>
-                <h3 className="text-5xl md:text-6xl font-black text-slate-900 mb-3">{item.stat}</h3>
-                <p className="text-base font-black text-slate-900 uppercase tracking-widest mb-1">{item.label}</p>
-                <p className="text-sm text-slate-400 font-medium">{item.sub}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Booking Section ── */}
       <section id="book" className="py-24 bg-white scroll-mt-24">
         <div className="max-w-7xl mx-auto px-6">
@@ -570,33 +539,20 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="reveal-right bg-white rounded-xl p-8 shadow-xl border border-zinc-100 flex flex-col gap-8">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-black uppercase tracking-widest text-zinc-400">Select Date</span>
-                <div className="flex gap-2">
-                  <div className="w-8 h-8 rounded-lg border border-zinc-100 flex items-center justify-center text-zinc-400">←</div>
-                  <div className="w-8 h-8 rounded-lg border border-zinc-100 flex items-center justify-center text-zinc-400">→</div>
+            {/* Functional Calendly Embed */}
+            <div className="reveal-right">
+              <div className="rounded-2xl overflow-hidden shadow-soft border border-slate-200 bg-white flex flex-col items-center justify-center p-12 text-center min-h-[400px]">
+                <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6">
+                  <Calendar className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="text-2xl font-black text-slate-900 mb-2">Calendar Integration</h3>
+                <p className="text-slate-500 font-medium mb-8 max-w-xs">
+                  Please replace the URL in <code className="bg-slate-100 px-2 py-1 rounded">page.tsx</code> with your personal Calendly link to enable live booking.
+                </p>
+                <div className="px-6 py-3 bg-slate-100 text-slate-400 rounded-lg text-sm font-bold border border-slate-200 border-dashed w-full max-w-sm">
+                  src/app/page.tsx line ~550
                 </div>
               </div>
-              <div className="grid grid-cols-7 gap-2 text-center">
-                {['S','M','T','W','T','F','S'].map(d => (
-                  <span key={d} className="text-[10px] font-black text-zinc-300">{d}</span>
-                ))}
-                {Array.from({ length: 31 }).map((_, i) => (
-                  <div key={i} className={cn(
-                    "aspect-square flex items-center justify-center text-xs font-bold rounded-xl cursor-pointer transition-all",
-                    i + 1 === 15 ? "bg-slate-900 text-white shadow-lg" : "text-zinc-400 hover:bg-slate-50"
-                  )}>
-                    {i + 1}
-                  </div>
-                ))}
-              </div>
-              <button className="w-full py-4 bg-slate-900 text-white rounded-lg font-black uppercase text-[10px] tracking-[0.2em] hover:bg-slate-800 transition-all active:scale-95">
-                Confirm Booking
-              </button>
-              <p className="text-[9px] text-center font-bold text-zinc-300 uppercase tracking-widest">
-                Powered by ReceptionistAI Scheduler
-              </p>
             </div>
           </div>
         </div>
@@ -633,15 +589,9 @@ export default function Home() {
             <span className="text-2xl font-black tracking-tight text-slate-900">ReceptionistAI</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="#book" className="px-8 py-4 bg-slate-900 text-white rounded-lg font-black uppercase text-[10px] tracking-widest hover:bg-slate-800 transition-all">
+            <Link href="#book" className="px-8 py-4 bg-slate-900 text-white rounded-lg font-black uppercase text-[10px] tracking-widest hover:bg-slate-800 transition-all shadow-soft">
               Schedule Your Demo
             </Link>
-            <button
-              onClick={() => setIsContactOpen(true)}
-              className="px-8 py-4 bg-white border border-slate-200 text-slate-900 rounded-lg font-black uppercase text-[10px] tracking-widest hover:bg-slate-50 transition-all"
-            >
-              Inquire Now
-            </button>
           </div>
           <div className="flex gap-10 text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">
             <Link href="/privacy" className="hover:text-slate-900 transition-colors">Privacy</Link>
