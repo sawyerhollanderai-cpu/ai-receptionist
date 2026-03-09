@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     const twilioSid = process.env.TWILIO_ACCOUNT_SID;
     const twilioToken = process.env.TWILIO_AUTH_TOKEN;
     const twilioFrom = process.env.TWILIO_PHONE_NUMBER;
-    const calendlyLink = process.env.CALENDLY_LINK || 'https://calendly.com/sawyerhollanderai/30min';
+    const calendlyLink = process.env.CALENDLY_LINK || '';
 
     if (!twilioSid || !twilioToken || !twilioFrom) {
       console.warn('[SMS] Twilio not configured — skipping SMS');

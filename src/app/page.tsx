@@ -543,7 +543,7 @@ export default function Home() {
             <div className="reveal-right">
               <div className="rounded-2xl overflow-hidden shadow-soft border border-slate-200 bg-white">
                 <InlineWidget 
-                  url="https://calendly.com/sawyerhollanderai/30min"
+                  url={process.env.NEXT_PUBLIC_CALENDLY_URL || "https://calendly.com"}
                   styles={{ height: '650px', width: '100%' }}
                   pageSettings={{
                     hideLandingPageDetails: true,
