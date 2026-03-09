@@ -55,8 +55,8 @@ export default function Home() {
           <div className="hidden md:flex items-center gap-10 text-[13px] font-semibold text-zinc-500 uppercase tracking-widest">
             <a href="#experience" className="hover:text-deep-blue transition-all">Experience</a>
             <a href="#demo" className="hover:text-deep-blue transition-all">Live Demo</a>
-            <a href="#contact" className="px-6 py-2.5 bg-deep-blue text-white rounded-xl hover:bg-zinc-800 transition-all shadow-md shadow-deep-blue/10 active:scale-95 flex items-center gap-2">
-              Contact us
+            <a href="#book" className="px-6 py-2.5 bg-deep-blue text-white rounded-xl hover:bg-zinc-800 transition-all shadow-md shadow-deep-blue/10 active:scale-95 flex items-center gap-2">
+              Book a Demo
             </a>
           </div>
         </div>
@@ -242,6 +242,77 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Booking Section */}
+        <section id="book" className="max-w-6xl mx-auto px-6 mb-32 scroll-mt-24">
+          <div className="bg-white/40 backdrop-blur-3xl border border-white/40 rounded-[3rem] p-12 md:p-20 shadow-2xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-deep-blue/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-deep-blue/10 transition-colors duration-700" />
+            
+            <div className="grid lg:grid-cols-2 gap-20 items-center relative z-10">
+              <div>
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-deep-blue/5 text-[10px] font-black uppercase tracking-widest text-deep-blue mb-8">
+                  <CalendarCheck className="w-3 h-3" /> Booking Portal
+                </div>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tight text-deep-blue mb-6">
+                  Schedule <span className="text-zinc-400 font-medium">Your Strategy Call.</span>
+                </h2>
+                <p className="text-lg text-zinc-500 leading-relaxed mb-10 max-w-md">
+                  Ready to deploy Sarah to your business? Pick a time that works for you and let's build your AI future together.
+                </p>
+                
+                <div className="space-y-6">
+                  {[
+                    "15-Minute Technical Blueprint",
+                    "Custom Persona Workshop",
+                    "Live Deployment Support"
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-4 text-sm font-bold text-deep-blue">
+                      <div className="w-6 h-6 rounded-lg bg-green-500/10 flex items-center justify-center text-green-600">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                      </div>
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-white rounded-3xl p-8 shadow-xl border border-zinc-100 flex flex-col gap-8">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black uppercase tracking-widest text-zinc-400">Select Date</span>
+                  <div className="flex gap-2">
+                    <div className="w-8 h-8 rounded-lg border border-zinc-100 flex items-center justify-center text-zinc-400 cursor-not-allowed">←</div>
+                    <div className="w-8 h-8 rounded-lg border border-zinc-100 flex items-center justify-center text-zinc-400 cursor-not-allowed">→</div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-7 gap-2 text-center">
+                  {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(d => (
+                    <span key={d} className="text-[10px] font-black text-zinc-300">{d}</span>
+                  ))}
+                  {Array.from({ length: 31 }).map((_, i) => (
+                    <div 
+                      key={i} 
+                      className={cn(
+                        "aspect-square flex items-center justify-center text-xs font-bold rounded-xl transition-all",
+                        i + 1 === 15 ? "bg-deep-blue text-white shadow-lg" : "text-zinc-400 hover:bg-zinc-50 cursor-pointer"
+                      )}
+                    >
+                      {i + 1}
+                    </div>
+                  ))}
+                </div>
+
+                <button className="w-full py-4 bg-deep-blue text-white rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] shadow-lg shadow-deep-blue/20 hover:scale-[1.02] active:scale-95 transition-all">
+                  Confirm Booking
+                </button>
+                
+                <p className="text-[9px] text-center font-bold text-zinc-300 uppercase tracking-widest">
+                  Powered by ReceptionistAI Scheduler
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Final CTA - For the Sales Pitch */}
         <section className="max-w-5xl mx-auto px-6 mb-32">
           <div className="relative rounded-[3rem] overflow-hidden bg-deep-blue p-12 md:p-24 text-center">
@@ -259,11 +330,8 @@ export default function Home() {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <a href="mailto:hollandersawyer@gmail.com" className="px-10 py-5 bg-white text-deep-blue rounded-2xl font-black uppercase text-xs tracking-widest shadow-2xl shadow-white/10 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
-                  Get Started Now <ArrowRight className="w-4 h-4" />
-                </a>
-                <a href="tel:8609891823" className="px-10 py-5 bg-white/10 text-white border border-white/20 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-white/20 transition-all flex items-center justify-center">
-                  Request Custom Demo
+                <a href="#book" className="px-10 py-5 bg-white text-deep-blue rounded-2xl font-black uppercase text-xs tracking-widest shadow-2xl shadow-white/10 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
+                  Book Your Demo <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
             </div>
@@ -312,15 +380,10 @@ export default function Home() {
           </div>
           
           <div className="flex flex-col items-center gap-4 text-center">
-            <h3 className="text-xs font-black uppercase tracking-[0.4em] text-zinc-300 mb-2">Direct Connection</h3>
-            <div className="flex flex-col items-center gap-3">
-              <a href="mailto:hollandersawyer@gmail.com" className="text-xl md:text-2xl font-black text-deep-blue hover:scale-105 transition-transform">
-                hollandersawyer@gmail.com
-              </a>
-              <a href="tel:8609891823" className="text-xl md:text-2xl font-black text-zinc-400 hover:text-deep-blue hover:scale-105 transition-all">
-                860-989-1823
-              </a>
-            </div>
+            <h3 className="text-xs font-black uppercase tracking-[0.4em] text-zinc-300 mb-2">Automated Front-Desk</h3>
+            <Link href="#book" className="px-8 py-4 bg-deep-blue text-white rounded-2xl font-black uppercase text-[10px] tracking-widest hover:scale-105 transition-all">
+              Schedule Your Demo
+            </Link>
           </div>
           <div className="flex gap-10 text-[10px] font-bold text-zinc-300 uppercase tracking-[0.2em] mt-8">
             <Link href="/privacy" className="hover:text-deep-blue transition-colors">Privacy</Link>
