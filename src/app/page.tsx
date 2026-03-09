@@ -541,17 +541,11 @@ export default function Home() {
 
             {/* Functional Calendly Embed */}
             <div className="reveal-right">
-              <div className="rounded-2xl overflow-hidden shadow-soft border border-slate-200 bg-white flex flex-col items-center justify-center p-12 text-center min-h-[400px]">
-                <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6">
-                  <Calendar className="w-8 h-8 text-blue-600" />
-                </div>
-                <h3 className="text-2xl font-black text-slate-900 mb-2">Calendar Integration</h3>
-                <p className="text-slate-500 font-medium mb-8 max-w-xs">
-                  Please replace the URL in <code className="bg-slate-100 px-2 py-1 rounded">page.tsx</code> with your personal Calendly link to enable live booking.
-                </p>
-                <div className="px-6 py-3 bg-slate-100 text-slate-400 rounded-lg text-sm font-bold border border-slate-200 border-dashed w-full max-w-sm">
-                  src/app/page.tsx line ~550
-                </div>
+              <div className="rounded-2xl overflow-hidden shadow-soft border border-slate-200 bg-white">
+                <InlineWidget 
+                  url="https://calendly.com/sawyerhollanderai/30min"
+                  styles={{ height: '650px', width: '100%' }}
+                />
               </div>
             </div>
           </div>
