@@ -1,13 +1,20 @@
 'use client';
 
 import VapiButton, { cn } from '@/components/VapiButton';
-import { Activity, Clock, CheckCircle2, User, Phone, ShieldCheck, CalendarCheck, ArrowRight } from 'lucide-react';
+import { Activity, Clock, CheckCircle2, User, Phone, ShieldCheck, CalendarCheck, ArrowRight, X, Send, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 export default function Home() {
   const [leads, setLeads] = useState<any[]>([]);
   const [visitorId, setVisitorId] = useState<string | null>(null);
+  
+  // Contact Form State
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
   useEffect(() => {
     // Generate or retrieve visitor ID
@@ -34,6 +41,33 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setFormError(null);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, visitorId }),
+      });
+
+      if (!res.ok) throw new Error('Failed to send message');
+      
+      setIsSubmitted(true);
+      setFormData({ name: '', email: '', message: '' });
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setIsContactOpen(false);
+      }, 3000);
+    } catch (err) {
+      setFormError('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <main className="min-h-screen mesh-gradient text-zinc-900 selection:bg-deep-blue/10 selection:text-white">
       {/* ... (rest of the dynamic background and nav) ... */}
@@ -53,11 +87,13 @@ export default function Home() {
             <span className="text-xl font-bold tracking-tight text-deep-blue">ReceptionistAI</span>
           </div>
           <div className="hidden md:flex items-center gap-10 text-[13px] font-semibold text-zinc-500 uppercase tracking-widest">
-            <a href="#experience" className="hover:text-deep-blue transition-all">Experience</a>
-            <a href="#demo" className="hover:text-deep-blue transition-all">Live Demo</a>
-            <a href="#book" className="px-6 py-2.5 bg-deep-blue text-white rounded-xl hover:bg-zinc-800 transition-all shadow-md shadow-deep-blue/10 active:scale-95 flex items-center gap-2">
-              Book a Demo
-            </a>
+            <a href="#book" className="hover:text-deep-blue transition-all">Book a Demo</a>
+            <button 
+              onClick={() => setIsContactOpen(true)}
+              className="px-6 py-2.5 bg-deep-blue text-white rounded-xl hover:bg-zinc-800 transition-all shadow-md shadow-deep-blue/10 active:scale-95 flex items-center gap-2"
+            >
+              Message Us
+            </button>
           </div>
         </div>
       </nav>
@@ -381,9 +417,17 @@ export default function Home() {
           
           <div className="flex flex-col items-center gap-4 text-center">
             <h3 className="text-xs font-black uppercase tracking-[0.4em] text-zinc-300 mb-2">Automated Front-Desk</h3>
-            <Link href="#book" className="px-8 py-4 bg-deep-blue text-white rounded-2xl font-black uppercase text-[10px] tracking-widest hover:scale-105 transition-all">
-              Schedule Your Demo
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link href="#book" className="px-8 py-4 bg-deep-blue text-white rounded-2xl font-black uppercase text-[10px] tracking-widest hover:scale-105 transition-all">
+                Schedule Your Demo
+              </Link>
+              <button 
+                onClick={() => setIsContactOpen(true)}
+                className="px-8 py-4 bg-white border border-zinc-100 text-deep-blue rounded-2xl font-black uppercase text-[10px] tracking-widest hover:scale-105 transition-all shadow-sm"
+              >
+                Inquire Now
+              </button>
+            </div>
           </div>
           <div className="flex gap-10 text-[10px] font-bold text-zinc-300 uppercase tracking-[0.2em] mt-8">
             <Link href="/privacy" className="hover:text-deep-blue transition-colors">Privacy</Link>
@@ -396,6 +440,94 @@ export default function Home() {
           </p>
         </div>
       </footer>
+
+      {/* Contact Modal */}
+      {isContactOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 animate-fade-in shadow-2xl">
+          <div 
+            className="absolute inset-0 bg-deep-blue/20 backdrop-blur-md"
+            onClick={() => !isSubmitting && setIsContactOpen(false)}
+          />
+          
+          <div className="relative w-full max-w-xl bg-white rounded-[2.5rem] shadow-2xl border border-zinc-100 p-10 md:p-12 animate-fade-in-up">
+            <button 
+              onClick={() => setIsContactOpen(false)}
+              className="absolute top-8 right-8 p-2 text-zinc-400 hover:text-deep-blue transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {isSubmitted ? (
+              <div className="py-12 flex flex-col items-center text-center gap-6 animate-fade-in">
+                <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white shadow-xl shadow-green-200">
+                  <CheckCircle2 className="w-10 h-10" />
+                </div>
+                <div>
+                  <h3 className="text-3xl font-black text-deep-blue mb-2">Message Sent!</h3>
+                  <p className="text-zinc-500 font-medium">Sarah will notify us immediately. Talk soon!</p>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="mb-10 text-center">
+                  <h3 className="text-3xl font-black text-deep-blue mb-2">Send a Message</h3>
+                  <p className="text-zinc-500 font-medium">How can Sarah help your business?</p>
+                </div>
+
+                <form onSubmit={handleContactSubmit} className="space-y-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Full Name</label>
+                    <input 
+                      required
+                      type="text" 
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="Enter your name"
+                      className="w-full px-6 py-4 bg-zinc-50 border border-zinc-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-deep-blue/5 focus:border-deep-blue transition-all font-medium text-sm"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Email Address</label>
+                    <input 
+                      required
+                      type="email" 
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="hello@example.com"
+                      className="w-full px-6 py-4 bg-zinc-50 border border-zinc-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-deep-blue/5 focus:border-deep-blue transition-all font-medium text-sm"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Your Message</label>
+                    <textarea 
+                      required
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      rows={4}
+                      placeholder="Tell us about your project..."
+                      className="w-full px-6 py-4 bg-zinc-50 border border-zinc-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-deep-blue/5 focus:border-deep-blue transition-all font-medium resize-none text-sm"
+                    />
+                  </div>
+
+                  {formError && (
+                    <p className="text-red-500 text-xs font-bold text-center">{formError}</p>
+                  )}
+
+                  <button 
+                    disabled={isSubmitting}
+                    className="w-full py-5 bg-deep-blue text-white rounded-2xl font-black uppercase text-xs tracking-[0.2em] shadow-lg shadow-deep-blue/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                  >
+                    {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-4 h-4" />}
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </main>
   );
 }
