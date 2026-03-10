@@ -68,14 +68,15 @@ export default function PricingPage() {
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50">
         <div className="bg-white/90 backdrop-blur-md h-16 px-8 rounded-lg flex items-center justify-between shadow-[0_4px_24px_rgba(0,0,0,0.07)] border border-slate-100">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-slate-900 rounded-xl flex items-center justify-center">
+            <div className="w-9 h-9 bg-[#1C1917] rounded-xl flex items-center justify-center">
               <span className="text-white font-bold text-sm tracking-tighter">RA</span>
             </div>
-            <span className="text-xl font-bold tracking-tight text-slate-900">ReceptionistAI</span>
+            <span className="text-xl font-bold tracking-tight text-[#1C1917]">ReceptionistAI</span>
           </Link>
           <div className="hidden md:flex items-center gap-8">
-            <Link href="/" className="text-[13px] font-semibold text-slate-500 hover:text-slate-900 transition-colors">Home</Link>
-            <a href="tel:+18604071305" className="px-5 py-2.5 bg-slate-900 text-white text-[13px] font-bold rounded-xl hover:bg-slate-800 transition-all">
+            <Link href="/" className="text-[13px] font-semibold text-slate-500 hover:text-[#1C1917] transition-colors">Home</Link>
+            <Link href="/pricing" className="text-[13px] font-semibold text-[#1C1917] transition-colors">Pricing</Link>
+            <a href="/#book" className="px-5 py-2.5 bg-[#1C1917] text-white text-[13px] font-bold rounded-xl hover:bg-slate-800 transition-all">
               Try Demo
             </a>
           </div>
@@ -143,10 +144,10 @@ export default function PricingPage() {
                 href={plan.stripeLink}
                 target={plan.price !== 'Custom' ? '_blank' : undefined}
                 rel="noopener noreferrer"
-                className={`w-full py-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all ${
+                className={`w-full py-4 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all ${
                   plan.highlight
-                    ? 'bg-slate-900 text-white hover:bg-slate-800'
-                    : 'bg-white border border-slate-200 text-slate-900 hover:bg-slate-50'
+                    ? 'bg-[#1C1917] text-white hover:bg-slate-800'
+                    : 'bg-white border border-slate-200 text-[#1C1917] hover:bg-slate-50'
                 }`}
               >
                 {plan.cta} <ArrowRight className="w-4 h-4" />

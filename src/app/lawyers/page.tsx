@@ -9,14 +9,18 @@ export default function LawyersPage() {
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50">
         <div className="bg-white/90 backdrop-blur-md h-16 px-8 rounded-lg flex items-center justify-between shadow-[0_4px_24px_rgba(0,0,0,0.07)] border border-slate-100">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-slate-900 rounded-xl flex items-center justify-center">
+            <div className="w-9 h-9 bg-[#1C1917] rounded-xl flex items-center justify-center">
               <span className="text-white font-bold text-sm tracking-tighter">RA</span>
             </div>
-            <span className="text-xl font-bold tracking-tight text-slate-900">ReceptionistAI</span>
+            <span className="text-xl font-bold tracking-tight text-[#1C1917]">ReceptionistAI</span>
           </Link>
-          <a href="#book" className="hidden md:flex px-5 py-2.5 bg-slate-900 text-white text-[13px] font-bold rounded-xl hover:bg-slate-800 transition-all">
-            Get Started
-          </a>
+          <div className="hidden md:flex items-center gap-8">
+            <Link href="/" className="text-[13px] font-semibold text-slate-500 hover:text-[#1C1917] transition-colors">Home</Link>
+            <Link href="/pricing" className="text-[13px] font-semibold text-slate-500 hover:text-[#1C1917] transition-colors">Pricing</Link>
+            <a href="/#book" className="px-5 py-2.5 bg-[#1C1917] text-white text-[13px] font-bold rounded-xl hover:bg-slate-800 transition-all">
+              Try Demo
+            </a>
+          </div>
         </div>
       </nav>
 
@@ -26,7 +30,7 @@ export default function LawyersPage() {
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 border border-amber-100 rounded-lg text-amber-700 text-xs font-bold uppercase tracking-widest mb-6">
               ⚖️ Built for Law Firms
             </div>
-            <h1 className="text-4xl md:text-6xl font-black text-slate-900 leading-tight tracking-tighter mb-6">
+            <h1 className="text-4xl md:text-6xl font-black text-[#1C1917] leading-tight tracking-tighter mb-6">
               Convert More<br />
               <span className="text-amber-600">Legal Leads</span><br />
               Around the Clock.
@@ -41,17 +45,17 @@ export default function LawyersPage() {
                 'Free consultation booking with attorney calendar',
                 '24/7 coverage including weekends and holidays',
               ].map((item, i) => (
-                <div key={i} className="flex items-center gap-3 text-sm font-bold text-slate-900">
+                <div key={i} className="flex items-center gap-3 text-sm font-bold text-[#1C1917]">
                   <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />
                   {item}
                 </div>
               ))}
             </div>
             <div className="flex flex-wrap gap-4">
-              <a href="tel:+18604071305" className="flex items-center gap-2 px-8 py-4 bg-slate-900 text-white font-bold rounded-2xl text-sm hover:bg-slate-800 transition-all">
+              <a href="tel:+18604071305" className="flex items-center gap-2 px-8 py-4 bg-[#1C1917] text-white font-bold rounded-2xl text-sm hover:bg-slate-800 transition-all shadow-soft">
                 <Phone className="w-4 h-4" /> Try the Legal Demo
               </a>
-              <Link href="/#book" className="flex items-center gap-2 px-8 py-4 bg-white border border-slate-200 text-slate-900 font-bold rounded-2xl text-sm hover:bg-slate-50 transition-all">
+              <Link href="/#book" className="flex items-center gap-2 px-8 py-4 bg-white border border-slate-200 text-[#1C1917] font-bold rounded-2xl text-sm hover:bg-slate-50 transition-all">
                 Book a Call <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

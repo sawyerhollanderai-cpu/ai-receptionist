@@ -71,13 +71,17 @@ export default function DemoGenerator() {
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50">
         <div className="bg-white/90 backdrop-blur-md h-16 px-8 rounded-lg flex items-center justify-between shadow-[0_4px_24px_rgba(0,0,0,0.07)] border border-slate-100">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-slate-900 rounded-xl flex items-center justify-center">
+            <div className="w-9 h-9 bg-[#1C1917] rounded-xl flex items-center justify-center">
               <span className="text-white font-bold text-sm tracking-tighter">RA</span>
             </div>
-            <span className="text-xl font-bold tracking-tight text-slate-900">ReceptionistAI</span>
+            <span className="text-xl font-bold tracking-tight text-[#1C1917]">ReceptionistAI</span>
           </Link>
           <div className="hidden md:flex items-center gap-8">
-            <Link href="/" className="text-[13px] font-semibold text-slate-500 hover:text-slate-900 transition-colors">← Back to Home</Link>
+            <Link href="/" className="text-[13px] font-semibold text-slate-500 hover:text-[#1C1917] transition-colors">Home</Link>
+            <Link href="/pricing" className="text-[13px] font-semibold text-slate-500 hover:text-[#1C1917] transition-colors">Pricing</Link>
+            <a href="/#book" className="px-5 py-2.5 bg-[#1C1917] text-white text-[13px] font-bold rounded-xl hover:bg-slate-800 transition-all">
+              Try Demo
+            </a>
           </div>
         </div>
       </nav>
@@ -155,7 +159,7 @@ export default function DemoGenerator() {
           <button
             type="submit"
             disabled={isGenerating}
-            className="w-full py-5 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3"
+            className="w-full py-5 bg-[#1C1917] text-white rounded-2xl font-bold text-sm hover:bg-slate-800 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3 shadow-soft"
           >
             {isGenerating ? (
               <>
@@ -220,7 +224,7 @@ export default function DemoGenerator() {
                 </a>
                 <a
                   href="tel:+18604071305"
-                  className="flex items-center justify-center gap-2 py-4 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 transition-all"
+                  className="flex items-center justify-center gap-2 py-4 bg-[#1C1917] text-white rounded-2xl font-bold text-sm hover:bg-slate-800 transition-all shadow-soft"
                 >
                   <Phone className="w-4 h-4" /> Test Call
                 </a>

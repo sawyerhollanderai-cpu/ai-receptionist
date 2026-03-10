@@ -96,7 +96,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-white text-slate-900 overflow-x-hidden">
+    <main className="min-h-screen bg-[#FCFBF9] text-[#1C1917] overflow-x-hidden">
 
       {/* ── Navigation ── */}
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50">
@@ -141,7 +141,7 @@ export default function Home() {
             <div className="flex flex-wrap gap-4">
               <a
                 href="#book"
-                className="flex items-center gap-3 px-8 py-4 bg-slate-900 text-white font-bold rounded-2xl text-sm hover:bg-slate-800 transition-all shadow-soft hover:-translate-y-0.5"
+                className="flex items-center gap-3 px-8 py-4 bg-[#1C1917] text-white font-bold rounded-2xl text-sm hover:bg-slate-800 transition-all shadow-soft hover:-translate-y-0.5"
               >
                 Book a Strategy Call <ArrowRight className="w-4 h-4" />
               </a>
@@ -175,11 +175,11 @@ export default function Home() {
       </section>
 
       {/* ── Phone Mockup + Numbered Features ── */}
-      <section id="features" className="py-24 bg-white scroll-mt-24">
+      <section id="features" className="py-24 bg-[#FCFBF9] scroll-mt-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20 reveal">
             <p className="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-4">The Platform</p>
-            <h2 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter">One AI. Every Channel.</h2>
+            <h2 className="text-4xl md:text-6xl font-black text-[#1C1917] tracking-tighter">One AI. Every Channel.</h2>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px_1fr] gap-12 items-center">
@@ -280,12 +280,12 @@ export default function Home() {
       </section>
 
       {/* ── Live Demo CTA ── */}
-      <section className="py-32 bg-white border-y border-slate-100">
+      <section className="py-32 bg-[#FCFBF9] border-y border-slate-100">
         <div className="max-w-3xl mx-auto px-6 text-center reveal">
-          <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter mb-10">Call our live demo</h2>
+          <h2 className="text-5xl md:text-7xl font-black text-[#1C1917] tracking-tighter mb-10">Call our live demo</h2>
           <a
             href="tel:+18604071305"
-            className="inline-flex items-center gap-4 px-10 py-5 bg-slate-900 text-white font-black text-xl rounded-lg hover:bg-slate-800 transition-all hover:scale-105 active:scale-95"
+            className="inline-flex items-center gap-4 px-10 py-5 bg-[#1C1917] text-white font-black text-xl rounded-2xl hover:bg-slate-800 transition-all hover:scale-105 active:scale-95 shadow-soft"
           >
             <Phone className="w-5 h-5" />
             +1 (860) 407-1305
@@ -338,11 +338,11 @@ export default function Home() {
       </section>
 
       {/* ── Bento Grid: "The AI Workforce that Never Sleeps" ── */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-[#FCFBF9]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 reveal">
             <p className="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-4">The AI Workforce</p>
-            <h2 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter mb-4">That Never Sleeps</h2>
+            <h2 className="text-4xl md:text-6xl font-black text-[#1C1917] tracking-tighter mb-4">That Never Sleeps</h2>
             <p className="text-slate-500 text-lg font-medium max-w-xl mx-auto">
               Capture tasks and appointments 24/7, even outside business hours. Set it up in minutes, keep your existing number.
             </p>
@@ -471,21 +471,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── CRM Integration (Lavender card style) ── */}
-      <section className="py-24 bg-white">
+      {/* ── CRM Integration ── */}
+      <section className="py-24 bg-[#FCFBF9]">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-12 reveal">
-            <h2 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter mb-6">
+            <h2 className="text-4xl md:text-6xl font-black text-[#1C1917] tracking-tighter mb-6">
               Seamless Integration<br />with Leading CRMs
             </h2>
             <p className="text-slate-500 text-lg font-medium max-w-lg mx-auto mb-10">
               Use ReceptionistAI&apos;s built-in CRM, or plug into an existing platform. Deep API integrations work out of the box.
             </p>
             <div className="flex items-center justify-center gap-4">
-              <a href="#book" className="px-8 py-4 bg-blue-600 text-white font-bold rounded-lg text-sm hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/25 hover:scale-[1.02]">
+              <a href="#book" className="px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl text-sm hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/25 hover:scale-[1.02]">
                 Build My Receptionist
               </a>
-              <button onClick={() => setIsContactOpen(true)} className="px-8 py-4 bg-white border border-slate-200 text-slate-900 font-bold rounded-lg text-sm hover:bg-slate-50 transition-all">
+              <button onClick={() => setIsContactOpen(true)} className="px-8 py-4 bg-white border border-slate-200 text-slate-900 font-bold rounded-2xl text-sm hover:bg-slate-50 transition-all">
                 Contact Sales
               </button>
             </div>
@@ -516,12 +516,12 @@ export default function Home() {
       </section>
 
       {/* ── Booking Section ── */}
-      <section id="book" className="py-24 bg-white scroll-mt-24">
+      <section id="book" className="py-24 bg-[#FCFBF9] scroll-mt-24">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-12 md:p-24 grid lg:grid-cols-2 gap-20 items-start">
+          <div className="bg-white border border-slate-200 rounded-3xl p-12 md:p-24 grid lg:grid-cols-2 gap-20 items-start shadow-soft">
             <div className="reveal-left">
               <p className="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-6">Strategy Call</p>
-              <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-8 leading-tight tracking-tighter">
+              <h2 className="text-4xl md:text-6xl font-black text-[#1C1917] mb-8 leading-tight tracking-tighter">
                 Schedule your<br />
                 <span className="text-blue-600">strategy call.</span>
               </h2>
@@ -559,7 +559,7 @@ export default function Home() {
       </section>
 
       {/* ── Final CTA ── */}
-      <section className="py-32 bg-slate-950">
+      <section className="py-32 bg-[#1C1917]">
         <div className="max-w-4xl mx-auto px-6 text-center reveal">
           <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-6">
             Stop losing leads<br />
@@ -569,10 +569,10 @@ export default function Home() {
             Join elite businesses using ReceptionistAI to capture every opportunity, automatically.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#book" className="px-10 py-5 bg-white text-slate-900 font-black rounded-lg text-sm hover:bg-slate-100 transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
+            <a href="#book" className="px-10 py-5 bg-white text-[#1C1917] font-black rounded-2xl text-sm hover:bg-slate-100 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 shadow-soft">
               Book Your Demo <ArrowRight className="w-4 h-4" />
             </a>
-            <a href="tel:+18604071305" className="px-10 py-5 border border-white/20 text-white font-black rounded-lg text-sm hover:bg-white/10 transition-all flex items-center gap-2">
+            <a href="tel:+18604071305" className="px-10 py-5 border border-white/20 text-white font-black rounded-2xl text-sm hover:bg-white/10 transition-all flex items-center gap-2">
               <Phone className="w-4 h-4" /> Call Now
             </a>
           </div>
@@ -580,7 +580,7 @@ export default function Home() {
       </section>
 
       {/* ── Footer ── */}
-      <footer id="contact" className="py-20 border-t border-slate-100 bg-white">
+      <footer id="contact" className="py-20 border-t border-slate-100 bg-[#FCFBF9]">
         <div className="max-w-7xl mx-auto px-6 flex flex-col items-center gap-10">
           <div className="flex flex-col items-center gap-4">
             <div className="w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center">
