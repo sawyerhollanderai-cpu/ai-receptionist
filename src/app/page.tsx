@@ -126,9 +126,9 @@ export default function Home() {
               AI Receptionist — 24/7
             </div>
             <h1 className="text-5xl md:text-7xl font-black text-slate-900 leading-[1.05] tracking-tighter mb-8">
-              Never Miss<br />
+              The AI<br />
               <span className="relative inline-block">
-                <span className="relative z-10 text-blue-600">Another Call.</span>
+                <span className="relative z-10 text-blue-600">Appointment Engine.</span>
                 <svg className="absolute w-[110%] h-auto -bottom-2 -left-2 z-0 text-blue-200" viewBox="0 0 200 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M5 15C50 5 150 2 195 10" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M15 18C60 12 140 8 185 14" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" opacity="0.5" />
@@ -136,14 +136,14 @@ export default function Home() {
               </span>
             </h1>
             <p className="text-xl text-slate-500 font-medium leading-relaxed mb-10 max-w-lg">
-              ReceptionistAI picks up every call, books appointments, and qualifies leads — automatically. Try it now.
+              We don&apos;t just answer your phone. We pack your calendar. Stop paying for software and start paying for results.
             </p>
             <div className="flex flex-wrap gap-4">
               <a
                 href="#book"
                 className="flex items-center gap-3 px-8 py-4 bg-[#1C1917] text-white font-bold rounded-2xl text-sm hover:bg-slate-800 transition-all shadow-soft hover:-translate-y-0.5"
               >
-                Book a Strategy Call <ArrowRight className="w-4 h-4" />
+                Book a Performance Audit <ArrowRight className="w-4 h-4" />
               </a>
             </div>
           </div>
@@ -187,16 +187,16 @@ export default function Home() {
             <div className="flex flex-col gap-16">
               <div className="reveal-left" style={{ transitionDelay: '0ms' }}>
                 <p className="text-blue-600 text-sm font-black mb-3">01.</p>
-                <h3 className="text-2xl font-black text-slate-900 mb-3">Capture Every Missed Call</h3>
+                <h3 className="text-2xl font-black text-slate-900 mb-3">Stop the Revenue Leak</h3>
                 <p className="text-slate-500 font-medium leading-relaxed">
-                  Captures missed phone calls 24/7, even outside regular business hours. Never lose a lead to a competitor just because you were unavailable.
+                  Every missed call is a $100+ invoice lost to your competitor. Sarah catches 100% of them, 24/7/365.
                 </p>
               </div>
               <div className="reveal-left" style={{ transitionDelay: '100ms' }}>
                 <p className="text-blue-600 text-sm font-black mb-3">03.</p>
-                <h3 className="text-2xl font-black text-slate-900 mb-3">Analyze Leads Automatically</h3>
+                <h3 className="text-2xl font-black text-slate-900 mb-3">Guaranteed Appointments</h3>
                 <p className="text-slate-500 font-medium leading-relaxed">
-                  Sarah gathers caller intent, categorizes urgency levels, and delivers concise summaries directly to your CRM dashboard.
+                  We don&apos;t just take messages. Sarah is trained to close. She handles objections and places booked meetings directly on your calendar.
                 </p>
               </div>
             </div>
