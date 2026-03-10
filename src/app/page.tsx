@@ -109,18 +109,7 @@ export default function Home() {
           </div>
           <div className="hidden md:flex items-center gap-8">
             <a href="#features" className="text-[13px] font-semibold text-slate-500 hover:text-[#1C1917] transition-colors">Features</a>
-            <div className="group relative">
-              <button className="text-[13px] font-semibold text-slate-500 group-hover:text-[#1C1917] transition-colors flex items-center gap-1">
-                Solutions <ChevronDown className="w-3 h-3" />
-              </button>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                <div className="bg-white border border-slate-100 rounded-xl shadow-xl p-2 w-48 overflow-hidden">
-                  <Link href="/dentists" className="block px-4 py-2.5 text-[12px] font-bold text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-all">🦷 Dentists</Link>
-                  <Link href="/lawyers" className="block px-4 py-2.5 text-[12px] font-bold text-slate-600 hover:bg-slate-50 hover:text-amber-600 rounded-lg transition-all">⚖️ Lawyers</Link>
-                  <Link href="/realestate" className="block px-4 py-2.5 text-[12px] font-bold text-slate-600 hover:bg-slate-50 hover:text-emerald-600 rounded-lg transition-all">🏡 Real Estate</Link>
-                </div>
-              </div>
-            </div>
+            <a href="#demo" className="text-[13px] font-semibold text-slate-500 hover:text-[#1C1917] transition-colors">Live Demo</a>
             <Link href="/pricing" className="text-[13px] font-semibold text-slate-500 hover:text-[#1C1917] transition-colors">Pricing</Link>
             <a href="#book" className="text-[13px] font-semibold text-slate-500 hover:text-[#1C1917] transition-colors">Book a Call</a>
           </div>
@@ -290,56 +279,55 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Industry Verticals Spotlight ── */}
+      {/* ── Versatility Section ── */}
       <section className="py-24 bg-[#FCFBF9]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 reveal">
-            <p className="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-4">Tailored Solutions</p>
-            <h2 className="text-4xl md:text-6xl font-black text-[#1C1917] tracking-tighter mb-4">Built for Your Industry</h2>
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-4">Unlimited Potential</p>
+            <h2 className="text-4xl md:text-6xl font-black text-[#1C1917] tracking-tighter mb-4">Works for Any Business</h2>
             <p className="text-slate-500 text-lg font-medium max-w-xl mx-auto">
-              Sarah is pre-trained on specialized knowledge for key industries. Pick your niche and see the difference.
+              Sarah isn't limited by industry. She learns your specific scripts, rules, and business logic in under 5 minutes.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-4 gap-8">
             {[
               { 
-                title: "Dentists", 
-                emoji: "🦷", 
-                desc: "Answers insurance questions and books cleanings 24/7.", 
-                link: "/dentists",
+                title: "Local Services", 
+                emoji: "🛠️", 
+                desc: "Plumbers, HVAC, and contractors keep their hands dirty while Sarah handles the bookings.",
                 color: "bg-blue-50 text-blue-600 border-blue-100" 
               },
               { 
-                title: "Lawyers", 
+                title: "Medical & Wellness", 
+                emoji: "🏥", 
+                desc: "Dentists, Med Spas, and Clinics ensure every patient call is answered and scheduled instantly.",
+                color: "bg-emerald-50 text-emerald-600 border-emerald-100" 
+              },
+              { 
+                title: "Professional Services", 
                 emoji: "⚖️", 
-                desc: "Compassionate intake and strategy call scheduling.", 
-                link: "/lawyers",
+                desc: "Law firms and accountants provide immediate intake without hiring expensive front desk staff.",
                 color: "bg-amber-50 text-amber-600 border-amber-100" 
               },
               { 
-                title: "Real Estate", 
-                emoji: "🏡", 
-                desc: "Qualifies buyer leads and books property viewings.", 
-                link: "/realestate",
-                color: "bg-emerald-50 text-emerald-600 border-emerald-100" 
+                title: "Everything Else", 
+                emoji: "✨", 
+                desc: "If your business has a phone and a calendar, Sarah will help you grow it 24/7.",
+                color: "bg-purple-50 text-purple-600 border-purple-100" 
               }
-            ].map((ind, i) => (
-              <Link 
+            ].map((item, i) => (
+              <div 
                 key={i} 
-                href={ind.link}
                 className="group p-8 bg-white border border-slate-200 rounded-3xl hover:border-[#1C1917] transition-all shadow-soft hover:-translate-y-1 reveal"
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-6 border ${ind.color}`}>
-                  {ind.emoji}
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-6 border ${item.color}`}>
+                  {item.emoji}
                 </div>
-                <h3 className="text-2xl font-black text-[#1C1917] mb-3 group-hover:text-blue-600 transition-colors">{ind.title}</h3>
-                <p className="text-slate-500 font-medium mb-6 text-sm leading-relaxed">{ind.desc}</p>
-                <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#1C1917]">
-                  View Solutions <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </Link>
+                <h3 className="text-xl font-black text-[#1C1917] mb-3">{item.title}</h3>
+                <p className="text-slate-500 font-medium text-xs leading-relaxed">{item.desc}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -659,18 +647,12 @@ export default function Home() {
               Schedule Your Demo
             </Link>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 w-full max-w-5xl py-12 border-y border-slate-100">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-12 w-full max-w-5xl py-12 border-y border-slate-100">
             <div className="flex flex-col gap-4">
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Product</span>
               <a href="#features" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Features</a>
               <Link href="/pricing" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Pricing</Link>
               <a href="/demo-generator" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Demo Generator</a>
-            </div>
-            <div className="flex flex-col gap-4">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Solutions</span>
-              <Link href="/dentists" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">For Dentists</Link>
-              <Link href="/lawyers" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">For Lawyers</Link>
-              <Link href="/realestate" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">For Real Estate</Link>
             </div>
             <div className="flex flex-col gap-4">
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Support</span>
