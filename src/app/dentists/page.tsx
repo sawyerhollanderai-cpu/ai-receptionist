@@ -117,10 +117,44 @@ export default function DentistsPage() {
         </div>
       </section>
 
-      <footer className="py-12 text-center bg-white border-t border-slate-100">
-        <Link href="/" className="text-sm font-bold text-slate-400 hover:text-slate-900 transition-colors">
-          ← Back to ReceptionistAI Home
-        </Link>
+      <footer className="py-20 border-t border-slate-100 bg-[#FCFBF9]">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center gap-10">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 bg-[#1C1917] rounded-lg flex items-center justify-center">
+              <span className="text-white font-black text-xl tracking-tighter">RA</span>
+            </div>
+            <span className="text-2xl font-black tracking-tight text-[#1C1917]">ReceptionistAI</span>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 w-full max-w-5xl py-12 border-y border-slate-100 text-left">
+            <div className="flex flex-col gap-4">
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Product</span>
+              <Link href="/#features" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Features</Link>
+              <Link href="/pricing" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Pricing</Link>
+              <Link href="/demo-generator" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Demo Generator</Link>
+            </div>
+            <div className="flex flex-col gap-4">
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Solutions</span>
+              <Link href="/dentists" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">For Dentists</Link>
+              <Link href="/lawyers" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">For Lawyers</Link>
+              <Link href="/realestate" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">For Real Estate</Link>
+            </div>
+            <div className="flex flex-col gap-4">
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Support</span>
+              <Link href="/security" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Security</Link>
+              <Link href="/privacy" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Privacy</Link>
+              <Link href="/terms" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Terms</Link>
+            </div>
+            <div className="flex flex-col gap-4">
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Call Us</span>
+              <a href="tel:+18604071305" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">+1 (860) 407-1305</a>
+            </div>
+          </div>
+
+          <p className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">
+            © 2026 ReceptionistAI — Automated Front Desk
+          </p>
+        </div>
       </footer>
     </main>
   );
