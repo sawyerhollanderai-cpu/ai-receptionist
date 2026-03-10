@@ -3,7 +3,7 @@ import time
 import requests
 import os
 
-RESEND_API_KEY = "re_YRyfGqHg_HwCz7vRYZpmhQfhuFxkXAzMy"
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
 
 # -------------------------------------------------------------------
 # IMPORTANT: Before you can send to other people, you MUST verify a 
