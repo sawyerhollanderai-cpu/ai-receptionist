@@ -660,7 +660,7 @@ export default function Home() {
               <Link href="/terms" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Terms</Link>
             </div>
             <div className="flex flex-col gap-4">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Call Us</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Live Demo</span>
               <a href="tel:+18604071305" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">+1 (860) 407-1305</a>
             </div>
           </div>

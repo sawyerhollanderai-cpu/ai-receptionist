@@ -165,7 +165,6 @@ export default function PricingPage() {
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Product</span>
               <Link href="/#features" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Features</Link>
               <Link href="/pricing" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Pricing</Link>
-              <Link href="/demo-generator" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Demo Generator</Link>
             </div>
             <div className="flex flex-col gap-4 text-center md:text-left">
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Support</span>
@@ -174,7 +173,7 @@ export default function PricingPage() {
               <Link href="/terms" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Terms</Link>
             </div>
             <div className="flex flex-col gap-4 text-center md:text-left">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Call Us</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Live Demo</span>
               <a href="tel:+18604071305" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">+1 (860) 407-1305</a>
             </div>
           </div>
