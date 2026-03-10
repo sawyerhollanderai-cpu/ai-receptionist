@@ -652,7 +652,6 @@ export default function Home() {
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Product</span>
               <a href="#features" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Features</a>
               <Link href="/pricing" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Pricing</Link>
-              <a href="/demo-generator" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Demo Generator</a>
             </div>
             <div className="flex flex-col gap-4">
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Support</span>
