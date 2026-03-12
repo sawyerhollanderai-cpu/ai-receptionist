@@ -1,21 +1,16 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Loader2, Globe, Phone, CheckCircle2, Copy, ExternalLink, Zap } from 'lucide-react';
-import { BorderBeam } from '@/components/ui/border-beam';
+import Vapi from '@vapi-ai/web';
 
 interface DemoResult {
   success: boolean;
-  assistant: {
-    id: string;
-    name: string;
-    firstMessage: string;
-  };
+  assistantConfig: any;
   businessName: string;
   industry: string;
   scrapedCharacters: number;
 }
+
+const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY || '');
 
 export default function DemoGenerator() {
   const [url, setUrl] = useState('');
@@ -25,7 +20,7 @@ export default function DemoGenerator() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [result, setResult] = useState<DemoResult | null>(null);
   const [error, setError] = useState('');
-  const [copied, setCopied] = useState(false);
+  const [isCalling, setIsCalling] = useState(false);
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,13 +55,25 @@ export default function DemoGenerator() {
     }
   };
 
-  const copyAssistantId = () => {
-    if (result) {
-      navigator.clipboard.writeText(result.assistant.id);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+  const startCall = async () => {
+    if (result?.assistantConfig) {
+      setIsCalling(true);
+      try {
+        await vapi.start(result.assistantConfig);
+      } catch (err) {
+        console.error('Failed to start call:', err);
+        setIsCalling(false);
+      }
     }
   };
+
+  const stopCall = () => {
+    vapi.stop();
+    setIsCalling(false);
+  };
+
+  vapi.on('call-end', () => setIsCalling(false));
+  vapi.on('error', () => setIsCalling(false));
 
   return (
     <main className="min-h-screen bg-background text-foreground relative overflow-hidden flex flex-col items-center">
@@ -195,39 +202,33 @@ export default function DemoGenerator() {
 
               <div className="bg-background/50 border border-white/5 rounded-2xl p-6">
                 <p className="text-[9px] font-black uppercase tracking-widest opacity-20 mb-2">System First Message</p>
-                <p className="font-medium opacity-60 italic">&ldquo;{result.assistant.firstMessage}&rdquo;</p>
+                <p className="font-medium opacity-60 italic">&ldquo;{result.assistantConfig.firstMessage}&rdquo;</p>
               </div>
 
-              <div className="bg-background/50 border border-white/5 rounded-2xl p-6">
-                <p className="text-[9px] font-black uppercase tracking-widest opacity-20 mb-2">Vapi Assistant ID</p>
-                <div className="flex items-center gap-4">
-                  <code className="flex-1 bg-black/40 px-4 py-3 rounded-lg border border-white/5 text-xs font-mono opacity-50 overflow-x-auto">
-                    {result.assistant.id}
-                  </code>
-                  <button
-                    onClick={copyAssistantId}
-                    className="p-3 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all"
-                  >
-                    {copied ? <CheckCircle2 className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4 opacity-30" />}
-                  </button>
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-4 pt-4">
-                <a
-                  href={`https://dashboard.vapi.ai/assistants/${result.assistant.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 py-4 border border-white/10 bg-white/5 rounded-xl font-bold text-sm hover:bg-white/10 transition-all"
+              <div className="grid gap-4 pt-4">
+                <button
+                  onClick={isCalling ? stopCall : startCall}
+                  className={`flex items-center justify-center gap-2 py-5 rounded-2xl font-black text-sm transition-all shadow-2xl ${
+                    isCalling 
+                    ? 'bg-red-500 text-white hover:bg-red-600' 
+                    : 'bg-white text-black hover:scale-[1.02]'
+                  }`}
                 >
-                  <ExternalLink className="w-4 h-4" /> Vapi Dashboard
-                </a>
-                <a
-                  href="tel:+18604071305"
-                  className="flex items-center justify-center gap-2 py-4 bg-foreground text-background rounded-xl font-bold text-sm hover:bg-neutral-200 transition-all"
-                >
-                  <Phone className="w-4 h-4" /> Live Test Call
-                </a>
+                  {isCalling ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      END DEMO SESSION
+                    </>
+                  ) : (
+                    <>
+                      <Phone className="w-4 h-4 fill-black" />
+                      START LIVE VOICE DEMO
+                    </>
+                  )}
+                </button>
+                <p className="text-[10px] font-black uppercase tracking-widest opacity-20 text-center">
+                  * This is an ephemeral session. No data is stored in Vapi Dashboard.
+                </p>
               </div>
             </div>
           </div>

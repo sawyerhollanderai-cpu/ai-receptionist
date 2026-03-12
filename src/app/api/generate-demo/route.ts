@@ -62,8 +62,8 @@ You are a remarkably human, empathetic, and professional virtual representative 
 ## Business Context (The Source of Truth)
 ${scrapedText.slice(0, 3000)}`;
 
-    // ── Step 3: Create the Vapi assistant ──
-    const vapiPayload = {
+    // ── Step 3: Prepare the Ephemeral Assistant Config ──
+    const assistantPayload = {
       name: `Demo - ${resolvedName}`,
       firstMessage: `Hi! This is the automated assistant for ${resolvedName}. How can I assist you today?`,
       model: {
@@ -86,32 +86,11 @@ ${scrapedText.slice(0, 3000)}`;
       }
     };
 
-    console.log(`[Demo Gen] Creating Vapi assistant for: ${resolvedName}`);
-    const vapiRes = await fetch('https://api.vapi.ai/assistant', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${VAPI_PRIVATE_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(vapiPayload),
-    });
-
-    if (!vapiRes.ok) {
-      const errorText = await vapiRes.text();
-      console.error('[Demo Gen] Vapi error:', errorText);
-      return NextResponse.json({ error: 'Failed to create assistant', details: errorText }, { status: 500 });
-    }
-
-    const assistant = await vapiRes.json();
-    console.log(`[Demo Gen] ✅ Assistant created: ${assistant.id}`);
+    console.log(`[Demo Gen] Generated ephemeral config for: ${resolvedName}`);
 
     return NextResponse.json({
       success: true,
-      assistant: {
-        id: assistant.id,
-        name: assistant.name,
-        firstMessage: assistant.firstMessage,
-      },
+      assistantConfig: assistantPayload,
       businessName: resolvedName,
       industry: resolvedIndustry,
       scrapedCharacters: scrapedText.length,
