@@ -45,14 +45,33 @@ export async function POST(req: Request) {
             // NEW: Save the lead to our local CRM API so it shows up on the landing page
             try {
               const baseUrl = process.env.NEXT_PUBLIC_TUNNEL_URL || "http://localhost:3000";
+              const visitorId = message.call?.metadata?.visitorId || "unknown_visitor";
+              const leadDestination = message.call?.metadata?.leadDestination;
+
+              // Local storage
               await fetch(`${baseUrl}/api/leads`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ...args, visitorId }),
               });
               console.log(`[CRM] Lead saved for visitor: ${visitorId}`);
+
+              // External storage (Google Sheets / Webhook / DB)
+              if (leadDestination && leadDestination.startsWith('http')) {
+                console.log(`[EXTERNAL] Forwarding lead to: ${leadDestination}`);
+                await fetch(leadDestination, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    lead: args,
+                    business: message.call?.metadata?.businessName,
+                    timestamp: new Date().toISOString(),
+                    source: 'ReceptionistAI Infrastructure'
+                  }),
+                });
+              }
             } catch (e) {
-              console.error('[CRM] Failed to save lead:', e);
+              console.error('[CRM/EXTERNAL] Failed to save lead:', e);
             }
             
             return {

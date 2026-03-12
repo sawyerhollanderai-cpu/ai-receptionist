@@ -1,8 +1,29 @@
 import { NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
 
-// Simple in-memory storage for demo leads keyed by visitorId
-// Note: This will reset when the server restarts or redeploys
-let visitorLeads: Record<string, any[]> = {};
+const LEADS_FILE = path.join(process.cwd(), 'leads.json');
+
+// Helper to read leads from disk
+function readLeads() {
+  try {
+    if (!fs.existsSync(LEADS_FILE)) return {};
+    const data = fs.readFileSync(LEADS_FILE, 'utf8');
+    return JSON.parse(data);
+  } catch (e) {
+    console.error('Error reading leads:', e);
+    return {};
+  }
+}
+
+// Helper to write leads to disk
+function saveLeads(leads: any) {
+  try {
+    fs.writeFileSync(LEADS_FILE, JSON.stringify(leads, null, 2));
+  } catch (e) {
+    console.error('Error saving leads:', e);
+  }
+}
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -12,7 +33,8 @@ export async function GET(req: Request) {
     return NextResponse.json([]);
   }
 
-  return NextResponse.json(visitorLeads[visitorId] || []);
+  const allLeads = readLeads();
+  return NextResponse.json(allLeads[visitorId] || []);
 }
 
 export async function POST(req: Request) {
@@ -25,20 +47,22 @@ export async function POST(req: Request) {
     }
 
     const newLead = {
-      name: body.patientName || "Anonymous",
-      task: "Demo Booking",
+      name: body.patientName || "System Lead",
+      task: "Capacity Audit",
       time: "Just Now",
-      status: "Booked",
-      color: "bg-blue-600",
+      status: "Verified",
+      color: "bg-blue-500",
       timestamp: new Date().toISOString(),
     };
     
-    if (!visitorLeads[visitorId]) {
-      visitorLeads[visitorId] = [];
+    const allLeads = readLeads();
+    if (!allLeads[visitorId]) {
+      allLeads[visitorId] = [];
     }
     
-    // Add to the beginning of the user's specific list
-    visitorLeads[visitorId] = [newLead, ...visitorLeads[visitorId]].slice(0, 5); 
+    // Add to the beginning and keep last 5
+    allLeads[visitorId] = [newLead, ...allLeads[visitorId]].slice(0, 5); 
+    saveLeads(allLeads);
     
     return NextResponse.json({ success: true, lead: newLead });
   } catch (error) {

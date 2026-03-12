@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, Inter } from "next/font/google";
+import { Poppins, Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -13,9 +13,14 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  title: "ReceptionistAI - 24/7 Virtual Voice Agent",
-  description: "Automate your business calls and bookings with our next-gen AI receptionist.",
+  title: "ReceptionistAI — The Voice Infrastructure Layer",
+  description: "Automate your business intake with high-performance voice infrastructure. 24/7 lead capture and automated scheduling.",
 };
 
 export default function RootLayout({
@@ -26,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${poppins.variable} antialiased`}
+        className={`${inter.variable} ${poppins.variable} ${playfair.variable} antialiased`}
       >
         {children}
       </body>

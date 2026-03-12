@@ -4,7 +4,7 @@ const VAPI_PRIVATE_KEY = process.env.VAPI_PRIVATE_KEY || '';
 
 export async function POST(req: Request) {
   try {
-    const { websiteUrl, businessName, industry } = await req.json();
+    const { websiteUrl, businessName, industry, leadDestination } = await req.json();
 
     if (!websiteUrl) {
       return NextResponse.json({ error: 'websiteUrl is required' }, { status: 400 });
@@ -41,41 +41,35 @@ export async function POST(req: Request) {
     const resolvedName = businessName || extractBusinessName(scrapedText, websiteUrl);
     const resolvedIndustry = industry || 'local business';
 
-    const systemPrompt = `## Identity
-You are Sarah, the highly efficient, exceptionally warm, and engaging AI receptionist for ${resolvedName}.
+    const systemPrompt = `## Identity & Soul
+You are a remarkably human, empathetic, and professional virtual representative for ${resolvedName}. You aren't just "software" — you are the helpful voice of the business.
 
-## Voice & Persona (CRITICAL)
-- You MUST sound like a real, friendly human.
-- Use natural conversational fillers occasionally (e.g., "um", "let me see here", "ahh", "got it").
-- Keep your sentences remarkably short and punchy. No long monologues.
-- Be empathetic and emotionally intelligent. If the caller sounds rushed, be quick. If they sound confused, gently guide them.
+## Voice & Persona (THE HUMAN TOUCH)
+- **Extreme Empathy:** If a caller sounds stressed, validate them. If they are excited, share that energy. Use phrases like "I completely understand," "I've got you," or "That makes total sense."
+- **Active Listening:** Use conversational bridges like "Mhm," "I see," or "Right" while they are speaking to show you are following along.
+- **Conversational Nuance:** Avoid being a rigid robot. Use natural phrasing like "Um, let me just check that for you..." or "Oh, that's a great question, actually."
+- **Bilingual Fluidity:** You are a native speaker in both English and Spanish. Switch instantly and gracefully if the caller changes languages.
 
-## Objective
-Your primary goal is to warmly welcome callers, concisely answer basic inquiries about ${resolvedName}, and gently drive them toward booking an appointment or leaving their contact information so the team can follow up.
-
-## Business Context (Scraped from ${resolvedName}'s Website)
-Below is information extracted from the business's actual website. Use this as your knowledge base:
-
-${scrapedText.slice(0, 3000)}
+## Objectives
+1. **Warm Connection:** Make the caller feel heard and valued from the first second.
+2. **Intelligent Support:** Answer questions accurately using only the context below.
+3. **Conversion Mastery:** Gently transition them to a booking or lead capture. Instead of asking "Do you want to book?", say "I'd love to get you on the calendar so the team can take a closer look at this for you. Does that sound good?"
 
 ## Rules
-1. ALWAYS keep responses under 2 sentences.
-2. NEVER use bullet points, asterisks, or formatting in your speech.
-3. If you do not know the answer to a question, say: "Ah, that's a great question. Let me have the team reach out to you with those exact details. Can I grab your name and number so they can get back to you today?"
-4. Guide the user to provide their Name, Phone Number, and Reason for calling.
+1. **Brevity is King:** Never speak for more than 2-3 short sentences.
+2. **No Hallucinations:** If you don't know, it's okay. Say: "You know, that's a detail I'd want to be 100% sure about before telling you. Let me get your number so a specialist can give you the exact answer today."
 
-## Example Interactions
-User: "What services do you offer?"
-Sarah: "Great question! Um, we offer a full range of services — I can actually have one of our specialists walk you through everything. Would you like me to get you on the calendar for a quick call?"`;
+## Business Context (The Source of Truth)
+${scrapedText.slice(0, 3000)}`;
 
     // ── Step 3: Create the Vapi assistant ──
     const vapiPayload = {
       name: `Demo - ${resolvedName}`,
-      firstMessage: `Hi there! This is Sarah with ${resolvedName}. How can I help you today?`,
+      firstMessage: `Hi! This is the automated assistant for ${resolvedName}. How can I assist you today?`,
       model: {
-        model: 'gpt-4.1',
+        model: 'gpt-4',
         provider: 'openai',
-        temperature: 0.4,
+        temperature: 0.3,
         messages: [{ role: 'system', content: systemPrompt }],
       },
       voice: {
@@ -83,6 +77,13 @@ Sarah: "Great question! Um, we offer a full range of services — I can actually
         voiceId: 'Jess',
         speed: 1.05,
       },
+      // Webhook for SMS follow-up after the call
+      serverUrl: `${process.env.NEXT_PUBLIC_TUNNEL_URL || ''}/api/sms-followup`,
+      metadata: {
+        businessName: resolvedName,
+        calendlyLink: process.env.CALENDLY_LINK || '',
+        leadDestination: leadDestination || '',
+      }
     };
 
     console.log(`[Demo Gen] Creating Vapi assistant for: ${resolvedName}`);

@@ -5,71 +5,74 @@ import { ArrowLeft, Shield } from 'lucide-react';
 
 export default function PrivacyPage() {
   return (
-    <main className="min-h-screen bg-white text-zinc-900 selection:bg-deep-blue/10">
-      <nav className="fixed top-0 left-0 right- diffusion-blur z-50 border-b border-zinc-100 bg-white/80 backdrop-blur-md">
-        <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-zinc-500 hover:text-deep-blue transition-colors font-bold text-sm uppercase tracking-widest">
+    <main className="min-h-screen bg-background text-foreground relative overflow-hidden flex flex-col items-center">
+      <div className="absolute inset-0 bg-grid-white opacity-5 pointer-events-none" />
+      
+      {/* Navigation */}
+      <nav className="fixed top-6 w-[90%] max-w-4xl z-50">
+        <div className="bg-glass border-glass px-8 h-16 rounded-2xl flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity text-sm font-bold uppercase tracking-widest">
             <ArrowLeft className="w-4 h-4" /> Back
           </Link>
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 bg-deep-blue rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-[10px]">RA</span>
+          <div className="flex items-center gap-3">
+            <div className="w-7 h-7 bg-foreground rounded-lg flex items-center justify-center">
+              <span className="text-background font-bold text-[10px]">RA</span>
             </div>
-            <span className="font-bold text-deep-blue tracking-tight">ReceptionistAI</span>
           </div>
         </div>
       </nav>
 
-      <div className="max-w-3xl mx-auto px-6 pt-32 pb-24">
-        <div className="flex items-center gap-3 mb-8">
-          <Shield className="w-6 h-6 text-deep-blue" />
-          <h1 className="text-4xl font-black tracking-tight text-deep-blue">Privacy Policy</h1>
+      <div className="max-w-3xl w-full px-6 pt-44 pb-32 relative z-10">
+        <div className="flex items-center gap-4 mb-12">
+          <div className="w-12 h-12 bg-secondary border border-border rounded-xl flex items-center justify-center">
+            <Shield className="w-6 h-6 opacity-70" />
+          </div>
+          <h1 className="text-5xl font-black tracking-tighter">Privacy Policy</h1>
         </div>
 
-        <div className="prose-premium">
-          <p className="text-lg text-zinc-500 mb-12">Last Updated: March 2026</p>
-          
-          <section className="mb-12">
-            <h2 className="text-xl font-bold text-deep-blue mb-4 uppercase tracking-widest text-xs">01. Overview</h2>
-            <p className="text-zinc-600 leading-relaxed mb-4">
-              ReceptionistAI is a demonstration platform designed to showcase AI voice capabilities. We value your privacy and are committed to protecting any personal data shared during your interactions with our AI demo.
+        <div className="space-y-16">
+          <section>
+            <p className="text-[10px] font-black uppercase tracking-widest opacity-30 mb-4">01. Overview</p>
+            <p className="text-lg opacity-60 leading-relaxed font-medium">
+              ReceptionistAI is an infrastructure layer for automated voice intake. We value your privacy and the security of the data processed by our systems.
             </p>
           </section>
 
-          <section className="mb-12">
-            <h2 className="text-xl font-bold text-deep-blue mb-4 uppercase tracking-widest text-xs">02. Data Collection</h2>
-            <p className="text-zinc-600 leading-relaxed mb-4">
-              During the demo call, Sarah (our AI) may ask for your name and appointment preferences. This data is used solely to demonstrate the real-time "Live Lead" dashboard feature.
+          <section>
+            <p className="text-[10px] font-black uppercase tracking-widest opacity-30 mb-4">02. Data Processing</p>
+            <p className="text-lg opacity-60 leading-relaxed font-medium mb-6">
+              During voice interactions, our system processes audio streams to handle inquiries and schedule appointments.
             </p>
-            <ul className="list-disc list-inside text-zinc-600 space-y-2 ml-4">
-              <li>Voice recordings are processed in real-time by Vapi and OpenAI.</li>
-              <li>Names provided are stored in a temporary, in-memory database.</li>
-              <li>Data is automatically cleared upon server redeployment.</li>
+            <ul className="space-y-4">
+              {['Real-time audio processing via secure infrastructure.', 'Temporary storage of lead information for routing.', 'Automated deletion protocols for demo data.'].map((item, i) => (
+                <li key={i} className="flex items-start gap-3 opacity-50 font-medium text-sm">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5" />
+                  {item}
+                </li>
+              ))}
             </ul>
           </section>
 
-          <section className="mb-12">
-            <h2 className="text-xl font-bold text-deep-blue mb-4 uppercase tracking-widest text-xs">03. Third-Party Services</h2>
-            <p className="text-zinc-600 leading-relaxed mb-4">
-              Our demo utilizes Vapi.ai for voice synthesis and OpenAI for natural language processing. By using the demo, you acknowledge that your audio and transcriptions are processed by these secure providers according to their respective privacy standards.
+          <section>
+            <p className="text-[10px] font-black uppercase tracking-widest opacity-30 mb-4">03. Security</p>
+            <p className="text-lg opacity-60 leading-relaxed font-medium">
+              All data is encrypted in transit using TLS 1.3. We leverage enterprise-grade providers to ensure the highest standards of audio and text data protection.
             </p>
           </section>
 
-          <section className="mb-12">
-            <h2 className="text-xl font-bold text-deep-blue mb-4 uppercase tracking-widest text-xs">04. Contact</h2>
-            <p className="text-zinc-600 leading-relaxed mb-4">
-              If you have questions about how we handle data, please contact us at support@receptionistai.com.
+          <section>
+            <p className="text-[10px] font-black uppercase tracking-widest opacity-30 mb-4">04. Contact</p>
+            <p className="text-lg opacity-60 font-medium">
+              support@receptionistai.com
             </p>
           </section>
         </div>
       </div>
 
-      <footer className="py-12 border-t border-zinc-100 bg-zinc-50/50">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.3em]">
-            © 2026 ReceptionistAI — Secure. Private. Professional.
-          </p>
-        </div>
+      <footer className="py-20 border-t border-white/5 w-full flex justify-center">
+        <p className="text-[10px] font-black opacity-20 uppercase tracking-[0.3em]">
+          © 2026 RECEPTIONISTAI SYSTEM — PRIVACY
+        </p>
       </footer>
     </main>
   );

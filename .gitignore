@@ -41,3 +41,5 @@ yarn-error.log*
 next-env.d.ts
 # env files\n.env.local\n.env*.local
 send_emails.py
+leads.json
+*.csv

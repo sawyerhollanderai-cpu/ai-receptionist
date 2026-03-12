@@ -5,66 +5,66 @@ import { ArrowLeft, FileText } from 'lucide-react';
 
 export default function TermsPage() {
   return (
-    <main className="min-h-screen bg-white text-zinc-900 selection:bg-deep-blue/10">
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-zinc-100 bg-white/80 backdrop-blur-md">
-        <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-zinc-500 hover:text-deep-blue transition-colors font-bold text-sm uppercase tracking-widest">
+    <main className="min-h-screen bg-background text-foreground relative overflow-hidden flex flex-col items-center">
+      <div className="absolute inset-0 bg-grid-white opacity-5 pointer-events-none" />
+      
+      {/* Navigation */}
+      <nav className="fixed top-6 w-[90%] max-w-4xl z-50">
+        <div className="bg-glass border-glass px-8 h-16 rounded-2xl flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity text-sm font-bold uppercase tracking-widest">
             <ArrowLeft className="w-4 h-4" /> Back
           </Link>
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 bg-deep-blue rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-[10px]">RA</span>
+          <div className="flex items-center gap-3">
+            <div className="w-7 h-7 bg-foreground rounded-lg flex items-center justify-center">
+              <span className="text-background font-bold text-[10px]">RA</span>
             </div>
-            <span className="font-bold text-deep-blue tracking-tight">ReceptionistAI</span>
           </div>
         </div>
       </nav>
 
-      <div className="max-w-3xl mx-auto px-6 pt-32 pb-24">
-        <div className="flex items-center gap-3 mb-8">
-          <FileText className="w-6 h-6 text-deep-blue" />
-          <h1 className="text-4xl font-black tracking-tight text-deep-blue">Terms of Service</h1>
+      <div className="max-w-3xl w-full px-6 pt-44 pb-32 relative z-10">
+        <div className="flex items-center gap-4 mb-12">
+          <div className="w-12 h-12 bg-secondary border border-border rounded-xl flex items-center justify-center">
+            <FileText className="w-6 h-6 opacity-70" />
+          </div>
+          <h1 className="text-5xl font-black tracking-tighter">Terms of Service</h1>
         </div>
 
-        <div className="prose-premium">
-          <p className="text-lg text-zinc-500 mb-12">Status: Demo Utility Terms</p>
-          
-          <section className="mb-12">
-            <h2 className="text-xl font-bold text-deep-blue mb-4 uppercase tracking-widest text-xs">01. Acceptance of Terms</h2>
-            <p className="text-zinc-600 leading-relaxed mb-4">
-              By accessing the ReceptionistAI website and using the "Live Demo" voice feature, you agree to comply with and be bound by these terms. This site is for demonstration purposes only.
+        <div className="space-y-16">
+          <section>
+            <p className="text-[10px] font-black uppercase tracking-widest opacity-30 mb-4">01. Agreement</p>
+            <p className="text-lg opacity-60 leading-relaxed font-medium">
+              By accessing the ReceptionistAI core infrastructure or interacting with our voice systems, you agree to these service terms.
             </p>
           </section>
 
-          <section className="mb-12">
-            <h2 className="text-xl font-bold text-deep-blue mb-4 uppercase tracking-widest text-xs">02. Demo Usage</h2>
-            <p className="text-zinc-600 leading-relaxed mb-4">
-              The "Sarah" AI is a software simulation. All "appointments" booked during the demo are fictional and do not represent real-world commitments. Users are prohibited from using the demo for any illegal service or to transmit offensive content.
+          <section>
+            <p className="text-[10px] font-black uppercase tracking-widest opacity-30 mb-4">02. Usage Limits</p>
+            <p className="text-lg opacity-60 leading-relaxed font-medium">
+              The automated systems are provided for legitimate business use. Unauthorized attempts to reverse-engineer or degrade the voice logic are strictly prohibited.
             </p>
           </section>
 
-          <section className="mb-12">
-            <h2 className="text-xl font-bold text-deep-blue mb-4 uppercase tracking-widest text-xs">03. Disclaimer</h2>
-            <p className="text-zinc-600 leading-relaxed mb-4">
-              ReceptionistAI is provided "as is" without any warranties. We are not responsible for any outcomes resulting from the use of the demo.
+          <section>
+            <p className="text-[10px] font-black uppercase tracking-widest opacity-30 mb-4">03. Performance Model</p>
+            <p className="text-lg opacity-60 leading-relaxed font-medium">
+              Our performance-based tiers are governed by the volume of successfully booked appointments. Invoices are generated based on system-verified outcomes.
             </p>
           </section>
 
-          <section className="mb-12">
-            <h2 className="text-xl font-bold text-deep-blue mb-4 uppercase tracking-widest text-xs">04. Proprietary Rights</h2>
-            <p className="text-zinc-600 leading-relaxed mb-4">
-              The design, code, and &quot;ReceptionistAI&quot; branding are the exclusive property of ReceptionistAI.
+          <section>
+            <p className="text-[10px] font-black uppercase tracking-widest opacity-30 mb-4">04. Liability</p>
+            <p className="text-lg opacity-60 leading-relaxed font-medium">
+              ReceptionistAI provides the horizontal infrastructure for intake. The accuracy of business data provided to the system is the responsibility of the account holder.
             </p>
           </section>
         </div>
       </div>
 
-      <footer className="py-12 border-t border-zinc-100 bg-zinc-50/50">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.3em]">
-            © 2026 ReceptionistAI — Terms of Service
-          </p>
-        </div>
+      <footer className="py-20 border-t border-white/5 w-full flex justify-center">
+        <p className="text-[10px] font-black opacity-20 uppercase tracking-[0.2em]">
+          © 2026 RECEPTIONISTAI SYSTEM — TERMS
+        </p>
       </footer>
     </main>
   );

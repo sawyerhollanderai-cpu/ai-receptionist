@@ -1,140 +1,101 @@
 'use client';
 
 import Link from 'next/link';
-import { Phone, ArrowRight, CheckCircle2, ChevronDown } from 'lucide-react';
+import { Phone, ArrowRight, CheckCircle2, Zap } from 'lucide-react';
+import { BorderBeam } from '@/components/ui/border-beam';
 
 export default function RealEstatePage() {
   return (
-    <main className="min-h-screen bg-[#FCFBF9] text-[#1C1917]">
-      <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50">
-        <div className="bg-white/90 backdrop-blur-md h-16 px-8 rounded-lg flex items-center justify-between shadow-[0_4px_24px_rgba(0,0,0,0.07)] border border-slate-100">
+    <main className="min-h-screen bg-background text-foreground relative overflow-hidden flex flex-col items-center">
+      <div className="absolute inset-0 bg-grid-white opacity-5 pointer-events-none" />
+      
+      {/* Navigation */}
+      <nav className="fixed top-6 w-[90%] max-w-5xl z-50">
+        <div className="bg-glass border-glass px-8 h-16 rounded-2xl flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-[#1C1917] rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-sm tracking-tighter">RA</span>
+            <div className="w-8 h-8 bg-foreground rounded-lg flex items-center justify-center">
+              <span className="text-background font-bold text-xs">RA</span>
             </div>
-            <span className="text-xl font-bold tracking-tight text-[#1C1917]">ReceptionistAI</span>
+            <span className="text-lg font-bold tracking-tight">ReceptionistAI</span>
           </Link>
-          <div className="hidden md:flex items-center gap-8">
-            <Link href="/" className="text-[13px] font-semibold text-slate-500 hover:text-[#1C1917] transition-colors">Home</Link>
-            <div className="group relative">
-              <button className="text-[13px] font-semibold text-slate-500 group-hover:text-[#1C1917] transition-colors flex items-center gap-1">
-                Solutions <ChevronDown className="w-3 h-3" />
-              </button>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                <div className="bg-white border border-slate-100 rounded-xl shadow-xl p-2 w-48 overflow-hidden">
-                  <Link href="/dentists" className="block px-4 py-2.5 text-[12px] font-bold text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-all">🦷 Dentists</Link>
-                  <Link href="/lawyers" className="block px-4 py-2.5 text-[12px] font-bold text-slate-600 hover:bg-slate-50 hover:text-amber-600 rounded-lg transition-all">⚖️ Lawyers</Link>
-                  <Link href="/realestate" className="block px-4 py-2.5 text-[12px] font-bold text-slate-600 hover:bg-slate-50 hover:text-emerald-600 rounded-lg transition-all">🏡 Real Estate</Link>
-                </div>
-              </div>
-            </div>
-            <Link href="/pricing" className="text-[13px] font-semibold text-slate-500 hover:text-[#1C1917] transition-colors">Pricing</Link>
-            <a href="/#book" className="px-5 py-2.5 bg-[#1C1917] text-white text-[13px] font-bold rounded-xl hover:bg-slate-800 transition-all">
-              Try Demo
-            </a>
+          <div className="flex items-center gap-6">
+            <Link href="/" className="text-sm font-medium opacity-60 hover:opacity-100 transition-opacity">Home</Link>
+            <Link href="/pricing" className="text-sm font-medium opacity-60 hover:opacity-100 transition-opacity">Pricing</Link>
           </div>
         </div>
       </nav>
 
-      <section className="pt-40 pb-24 max-w-6xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 border border-emerald-100 rounded-lg text-emerald-700 text-xs font-bold uppercase tracking-widest mb-6">
-              🏡 Built for Real Estate
-            </div>
-            <h1 className="text-4xl md:text-6xl font-black text-[#1C1917] leading-tight tracking-tighter mb-6">
-              Never Miss a<br />
-              <span className="text-emerald-600">Buyer Lead</span><br />
-              Again.
-            </h1>
-            <p className="text-lg text-slate-500 font-medium leading-relaxed mb-8 max-w-md">
-              When a buyer calls about a listing, they expect an answer within 30 seconds — or they call the next agent. ReceptionistAI qualifies leads and books showings instantly.
-            </p>
-            <div className="space-y-4 mb-10">
-              {[
-                'Qualifies buyer leads with budget & timeline',
-                'Books property showings onto your calendar',
-                'Handles listing inquiries for multiple properties',
-                'Answers after-hours and weekend open house calls',
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-3 text-sm font-bold text-[#1C1917]">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-                  {item}
+      {/* Hero Section */}
+      <section className="relative pt-44 pb-24 text-center z-10 px-6">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-[10px] font-black uppercase tracking-widest text-emerald-500 mb-8">
+          <Zap className="w-3 h-3 fill-emerald-500" />
+          Real Estate Operations Layer
+        </div>
+        <h1 className="text-6xl md:text-9xl font-black tracking-tighter mb-8 leading-[0.9] text-vibrant">
+          CAPTURE <span className="font-serif italic font-light lowercase tracking-normal">every</span><br />BUYER LEAD.
+        </h1>
+        <p className="text-lg md:text-2xl opacity-60 max-w-2xl mx-auto font-medium leading-relaxed mb-12">
+          Real estate leads expire in seconds. Our system provides <span className="text-white">instant qualification</span> and schedules property showings 24/7.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-5 justify-center">
+          <a href="tel:+18604071305" className="px-12 py-5 bg-white text-black font-black rounded-full text-sm hover:scale-[1.05] transition-all flex items-center justify-center gap-2 shadow-[0_0_40px_rgba(255,255,255,0.1)]">
+            <Phone className="w-4 h-4" /> Call Real Estate Demo
+          </a>
+          <Link href="/pricing" className="px-12 py-5 bg-glass border-glass text-white font-black rounded-full text-sm hover:bg-white/5 transition-all flex items-center justify-center gap-2">
+            View Capacity Tiers
+          </Link>
+        </div>
+      </section>
+
+      {/* Content Section */}
+      <section className="relative z-10 w-full max-w-6xl px-6 pb-40 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="bg-glass border-glass rounded-[2.5rem] p-10 relative overflow-hidden group">
+          <BorderBeam size={200} duration={10} colorFrom="#ffffff" colorTo="#10b981" />
+          <h3 className="text-[10px] font-black uppercase tracking-widest opacity-30 mb-6">Qualification Logic</h3>
+          <div className="space-y-6">
+            {[
+              { role: 'System', text: 'Hi, this is the intake line for Elite Realty. Which property are you calling about?' },
+              { role: 'Buyer', text: 'I saw the listing for the waterfront condo on Brickell. Is it still available?' },
+              { role: 'System', text: 'Great choice! I\'ll have the listing agent send over the latest status. Would you like to schedule a viewing for this weekend while it\'s still on the market?' },
+            ].map((msg, i) => (
+              <div key={i} className={`flex flex-col ${msg.role === 'Buyer' ? 'items-end' : 'items-start'}`}>
+                <span className="text-[9px] font-black uppercase tracking-widest opacity-20 mb-1">{msg.role}</span>
+                <div className={`px-5 py-3 rounded-2xl text-sm font-medium ${
+                  msg.role === 'Buyer' ? 'bg-emerald-600/10 text-emerald-500 border border-emerald-600/20' : 'bg-white/5 border border-white/10 opacity-70'
+                }`}>
+                  {msg.text}
                 </div>
-              ))}
-            </div>
-            <div className="flex flex-wrap gap-4">
-              <a href="tel:+18604071305" className="flex items-center gap-2 px-8 py-4 bg-[#1C1917] text-white font-bold rounded-2xl text-sm hover:bg-slate-800 transition-all shadow-soft">
-                <Phone className="w-4 h-4" /> Try the Real Estate Demo
-              </a>
-              <Link href="/#book" className="flex items-center gap-2 px-8 py-4 bg-white border border-slate-200 text-[#1C1917] font-bold rounded-2xl text-sm hover:bg-slate-50 transition-all">
-                Book a Call <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+              </div>
+            ))}
           </div>
-          <div className="bg-white rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.06)] border border-slate-100 p-8">
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Sample Conversation</p>
-            <div className="space-y-4">
-              {[
-                { role: 'ai', text: 'Hi there! This is Sarah with Elite Realty Group. How can I help you today?' },
-                { role: 'user', text: 'I saw a listing on Zillow for the waterfront condo on Brickell. Is it still available?' },
-                { role: 'ai', text: 'Great taste! Um, let me have one of our managing brokers reach out to you with the exact availability on that unit. Would you like me to get you on the calendar for a viewing this weekend?' },
-                { role: 'user', text: 'Yeah, Saturday would work.' },
-                { role: 'ai', text: 'Perfect, our agents show properties all weekend. Can I grab your name and a good number so we can confirm the details?' },
-              ].map((msg, i) => (
-                <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[80%] px-5 py-3 rounded-2xl text-sm font-medium ${
-                    msg.role === 'user' 
-                      ? 'bg-emerald-600 text-white rounded-br-md' 
-                      : 'bg-slate-100 text-slate-700 rounded-bl-md'
-                  }`}>
-                    {msg.text}
-                  </div>
-                </div>
-              ))}
+        </div>
+
+        <div className="space-y-12">
+          <div className="reveal">
+            <h3 className="text-2xl font-bold tracking-tight mb-4">Instant Qualification</h3>
+            <p className="opacity-50 font-medium">The system identifies buyer intent, budget, and timeline within the first 60 seconds of the call, pushing high-value leads directly to your agent team.</p>
+          </div>
+          <div className="reveal">
+            <h3 className="text-2xl font-bold tracking-tight mb-4">Multi-Property Support</h3>
+            <p className="opacity-50 font-medium">Coordinate inquiries across your entire listing portfolio. The system understands property details and routes calls based on specific listing IDs.</p>
+          </div>
+          <div className="grid grid-cols-2 gap-6 pt-4">
+            <div className="p-6 bg-secondary border border-border rounded-2xl">
+              <p className="text-3xl font-black tracking-tighter mb-1">0ms</p>
+              <p className="text-[9px] font-black uppercase tracking-widest opacity-30">Wait Time</p>
+            </div>
+            <div className="p-6 bg-secondary border border-border rounded-2xl">
+              <p className="text-3xl font-black tracking-tighter mb-1">100%</p>
+              <p className="text-[9px] font-black uppercase tracking-widest opacity-30">Lead Capture</p>
             </div>
           </div>
         </div>
       </section>
 
-      <footer className="py-20 border-t border-slate-100 bg-[#FCFBF9]">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center gap-10">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 bg-[#1C1917] rounded-lg flex items-center justify-center">
-              <span className="text-white font-black text-xl tracking-tighter">RA</span>
-            </div>
-            <span className="text-2xl font-black tracking-tight text-[#1C1917]">ReceptionistAI</span>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 w-full max-w-5xl py-12 border-y border-slate-100 text-left">
-            <div className="flex flex-col gap-4">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Product</span>
-              <Link href="/#features" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Features</Link>
-              <Link href="/pricing" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Pricing</Link>
-              <Link href="/demo-generator" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Demo Generator</Link>
-            </div>
-            <div className="flex flex-col gap-4">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Solutions</span>
-              <Link href="/dentists" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">For Dentists</Link>
-              <Link href="/lawyers" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">For Lawyers</Link>
-              <Link href="/realestate" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">For Real Estate</Link>
-            </div>
-            <div className="flex flex-col gap-4">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Support</span>
-              <Link href="/security" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Security</Link>
-              <Link href="/privacy" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Privacy</Link>
-              <Link href="/terms" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">Terms</Link>
-            </div>
-            <div className="flex flex-col gap-4">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Call Us</span>
-              <a href="tel:+18604071305" className="text-xs font-bold text-slate-500 hover:text-[#1C1917]">+1 (860) 407-1305</a>
-            </div>
-          </div>
-
-          <p className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">
-            © 2026 ReceptionistAI — Automated Front Desk
-          </p>
-        </div>
+      <footer className="py-20 border-t border-white/5 w-full flex justify-center">
+        <p className="text-[10px] font-black opacity-20 uppercase tracking-[0.2em]">
+          © 2026 RECEPTIONISTAI SYSTEM — REAL ESTATE SOLUTIONS
+        </p>
       </footer>
     </main>
   );
