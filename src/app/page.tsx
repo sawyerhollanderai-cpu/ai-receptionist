@@ -283,7 +283,9 @@ export default function Home() {
               pageSettings={{
                 hideLandingPageDetails: true,
                 hideEventTypeDetails: true,
-                primaryColor: 'ffffff',
+                backgroundColor: '000000',
+                textColor: 'ffffff',
+                primaryColor: '#3b82f6',
               }}
             />
           </div>
