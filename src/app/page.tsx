@@ -139,7 +139,7 @@ export default function Home() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
-            <a href="#book" className="px-12 py-5 bg-white text-black font-black rounded-full text-sm hover:scale-[1.05] active:scale-[0.95] transition-all flex items-center justify-center gap-2 shadow-[0_0_40px_rgba(255,255,255,0.15)]">
+            <a href="#book" className="px-12 py-5 bg-foreground text-background font-black rounded-full text-sm hover:scale-[1.05] active:scale-[0.95] transition-all flex items-center justify-center gap-2 shadow-[0_0_40px_rgba(255,255,255,0.05)]">
               Deploy Your System <ArrowRight className="w-4 h-4" />
             </a>
             <a href="tel:+18604071305" className="px-12 py-5 bg-glass border-glass text-white font-black rounded-full text-sm hover:bg-white/5 transition-all flex items-center justify-center gap-2">
@@ -252,14 +252,15 @@ export default function Home() {
 
       {/* ── Call to Action ── */}
       <section id="book" className="py-40 px-6 max-w-7xl mx-auto flex flex-col items-center">
-        <div className="reveal bg-white text-black rounded-[3rem] p-12 md:p-20 grid lg:grid-cols-2 gap-20 items-center w-full relative overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.2)]">
+        <div className="reveal bg-glass border-glass text-white rounded-[3rem] p-12 md:p-20 grid lg:grid-cols-2 gap-20 items-center w-full relative overflow-hidden">
+          <BorderBeam size={400} duration={15} colorFrom="#ffffff" colorTo="#3b82f6" />
           <div className="relative z-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-neutral-100 rounded-full text-[9px] font-black uppercase tracking-widest text-neutral-500 mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full text-[9px] font-black uppercase tracking-widest text-blue-400 mb-8">
               System Configuration
             </div>
             <h2 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-8">
               DEPLOY THE<br />
-              <span className="font-serif italic font-normal text-blue-600">Engine.</span>
+              <span className="font-serif italic font-normal text-vibrant">Engine.</span>
             </h2>
             <p className="text-lg opacity-60 font-medium max-w-md leading-relaxed mb-10">
               Ready to automate your intake? Schedule a 15-minute technical audit to align your logic flows and activate the system.
@@ -267,22 +268,22 @@ export default function Home() {
             <div className="space-y-4">
               {["15-Minute Blueprint", "Logic-Flow Architecture", "Live Deployment Strategy"].map((item, i) => (
                 <div key={i} className="flex items-center gap-3 font-bold text-sm">
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center">
-                    <CheckCircle2 className="w-3 h-3 text-white" />
+                  <div className="w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
+                    <CheckCircle2 className="w-3 h-3 text-blue-400" />
                   </div>
                   {item}
                 </div>
               ))}
             </div>
           </div>
-          <div className="relative z-10 rounded-2xl overflow-hidden border border-neutral-100 bg-neutral-50 shadow-2xl">
+          <div className="relative z-10 rounded-2xl overflow-hidden border border-white/5 bg-black/40 shadow-2xl">
             <InlineWidget 
               url={process.env.NEXT_PUBLIC_CALENDLY_URL || "https://calendly.com/ai-business-strategies/15min"}
               styles={{ height: '650px', width: '100%' }}
               pageSettings={{
                 hideLandingPageDetails: true,
                 hideEventTypeDetails: true,
-                primaryColor: '000000',
+                primaryColor: 'ffffff',
               }}
             />
           </div>

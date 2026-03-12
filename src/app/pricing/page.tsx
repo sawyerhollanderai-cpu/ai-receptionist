@@ -122,7 +122,7 @@ export default function PricingPage() {
                 className={`w-full py-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all ${
                   plan.highlight
                     ? 'bg-foreground text-background hover:bg-neutral-200'
-                    : 'bg-secondary text-secondary-foreground hover:bg-neutral-800'
+                    : 'bg-white/5 text-white border border-white/10 hover:bg-white/10'
                 }`}
               >
                 {plan.cta} <ArrowRight className="w-4 h-4" />
