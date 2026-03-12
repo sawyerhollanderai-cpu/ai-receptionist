@@ -285,7 +285,7 @@ export default function Home() {
                 hideEventTypeDetails: true,
                 backgroundColor: '000000',
                 textColor: 'ffffff',
-                primaryColor: '#3b82f6',
+                primaryColor: '3b82f6',
               }}
             />
           </div>
