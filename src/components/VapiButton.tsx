@@ -105,12 +105,11 @@ Strict Rules:
           firstMessage: "Hi! Thanks for trying the ReceptionistAI Demo. This is Sarah, how can I help your business today?"
         });
 
-      } catch (err: any) {
-        console.error('Vapi start error:', err);
-        if (err?.name === 'NotAllowedError' || err?.message?.includes('mic')) {
-          setError('MICROPHONE BLOCKED: Click the Lock (🔒) icon in your browser address bar to "Allow" access.');
-        } else {
+      } catch (err: unknown) {
+        if (err instanceof Error) {
           setError(err.message || 'Failed to start call');
+        } else {
+          setError('Failed to start call due to unknown error');
         }
         setIsConnecting(false);
       }
