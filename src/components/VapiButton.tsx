@@ -60,49 +60,11 @@ export default function VapiButton({ visitorId }: { visitorId: string | null }) 
         if (!assistantId) throw new Error('Assistant ID not set');
 
         // Correctly pass the visitorId in call metadata
+        // Start call using Dashboard settings (Voice, Model, Prompt)
         await vapi.start(assistantId, {
           metadata: {
             visitorId: visitorId || "unknown_visitor"
-          },
-          // Overriding the prompt for ReceptionistAI branding
-          model: {
-            provider: 'openai',
-            model: 'gpt-4o-mini',
-            messages: [
-              {
-                role: 'system',
-                content: `You are Sarah, the highly efficient virtual receptionist for "ReceptionistAI".
- 
-Goal: Answer the phone warmly, ask for their name, ask why they are calling, and book an appointment slot.
- 
-Strict Rules:
-1. YOU ARE A DEMO AI. Your purpose is to show how effectively ReceptionistAI can handle business calls.
-2. Keep all responses under 2 sentences. Your communication must be extremely brief and conversational.
-3. Ask only ONE question at a time.
-4. If the user asks about your capabilities, explain that you can book appointments, qualify leads, and handle routine inquiries 24/7.
-5. To book them, simply ask if they prefer "Mornings or Afternoons", pick a random time slot, and say "Your demo booking is confirmed! This is how I help businesses scale."`
-              }
-            ],
-            tools: [
-              {
-                type: 'function',
-                function: {
-                  name: 'bookAppointment',
-                  description: 'Book an appointment. Call this when the user agrees to a date and time.',
-                  parameters: {
-                    type: 'object',
-                    properties: {
-                      patientName: { type: 'string', description: 'The name of the person' },
-                      date: { type: 'string', description: 'The date (YYYY-MM-DD)' },
-                      time: { type: 'string', description: 'The time (e.g. 10:00 AM)' }
-                    },
-                    required: ['patientName', 'date', 'time']
-                  }
-                }
-              }
-            ]
-          },
-          firstMessage: "Hi! Thanks for trying the ReceptionistAI Demo. This is Sarah, how can I help your business today?"
+          }
         });
 
       } catch (err: unknown) {
